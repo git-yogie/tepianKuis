@@ -2,13 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class userController extends Controller
 {
-    public function signUp(){
-        // return view("");
+    public function signUp(Request $request){
+        // $validate = $request->validate([
+        //     "name"=>"required",
+        //     "email"=>"required | email",
+        //     "password"=>"required"
+        // ],
+        // [
+        //     'name.required' => 'Nama tidak boleh kosong',
+        //     'email.required' => 'Email tidak boleh kosong',
+        //     'password.required' => 'Password tidak boleh kosong'
+        // ]
+        // );
+
+        // $user = new User;
+        // $user->name = $request->name;
+        // $user->email = $request->email;
+
+        // $user->password = Hash::make($request->password);
+        // $user->save();
+
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => 'Register Berhasil',
+        //     'data' => $user
+        // ]);
+
+        return response()->json($request);
     }
 
     public function signIn(Request $request){

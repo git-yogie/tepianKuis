@@ -51,7 +51,7 @@
     {{-- here,s end --}}
 
     {{-- js Library --}}
-    <script src="{{ asset('asset/module/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/module/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
@@ -62,8 +62,8 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     {{-- custom js --}}
-    <script src="{{ asset('asset/js/app.js') }}"></script>
-    <script src="{{ asset('asset/js/authentication.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/js/authentication.js') }}"></script>
     @yield('js')
 
 

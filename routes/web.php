@@ -20,3 +20,15 @@ Route::get('/', function () {
 Route::get("/Daftar",function(){
     return view("template.main-page.pages.signUpPage");
 })->name("daftar");
+
+
+// dashboard user
+Route::get("/dashboard",function(){
+    return view("pages.dashboard.index");
+});
+
+// dashboard -> pustaka kuis
+Route::get("kuis/pustaka",function(){
+    return view("pages.dashboard.pustaka");
+    
+});
