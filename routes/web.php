@@ -25,10 +25,18 @@ Route::get("/Daftar",function(){
 // dashboard user
 Route::get("/dashboard",function(){
     return view("pages.dashboard.index");
-});
+})->name("dashboard");
 
 // dashboard -> pustaka kuis
 Route::get("kuis/pustaka",function(){
     return view("pages.dashboard.pustaka");
     
-});
+})->name("pustaka");
+
+Route::get("peserta/",function(){
+    return view("pages.dashboard.peserta");
+})->name("peserta");
+Route::get("peserta/hasil",function(){
+    return view("pages.dashboard.hasil");
+})->name("hasil");
+// end dashboard route
