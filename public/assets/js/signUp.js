@@ -1,7 +1,9 @@
 
 $(document).ready(function () {
-    var toastContainer = $('#toastContainer');
+
+    var toastContainer2 = $('#toastContainer2');
     var daftarForm = $("#form-daftar");
+    var masuk = new bootstrap.Modal(document.getElementById('masuk'));
     daftarForm.on("submit", function (e) {
         e.preventDefault();
         lazyLoader("#daftarButton", true, "Daftar", "Daftar");
@@ -12,18 +14,19 @@ $(document).ready(function () {
             .then(function (response) {
                 console.log(response.data);
                 if (response.data.status == false) {
-                    showToast(toastContainer, `<b>Gagal</b> ${response.data.message}`, 'error')
+                    showToast(toastContainer2, `<b>Gagal</b> ${response.data.message}`, 'error')
                 } else {
-                    showToast(toastContainer, "<b>Sukses</b> Berhasil Masuk!", 'success')
+                    showToast(toastContainer2, "<b>Sukses</b> Berhasil Masuk Daftar Silahkan Masuk", 'success')
+                    masuk.show()
                 }
 
-                lazyLoader("#signInBtn", false, "Masuk", "Masuk");
+                lazyLoader("#daftarButton", false, "Masuk", "Masuk");
             })
             .catch(function (error) {
-                console.log(error)
+                console.log(error.response.data)
                 console.log("ok")
-                showToast(toastContainer, "Error <b>" + error.response.status + "</b> " + error.response.statusText, 'error')
-                lazyLoader("#signInBtn", false, "Masuk", "Masuk");
+                showToast(toastContainer2, "<b> Error </b>" + error.response.data.message + "", 'error')
+                lazyLoader("#daftarButton", false, "Masuk", "Masuk");
             })
 
     });

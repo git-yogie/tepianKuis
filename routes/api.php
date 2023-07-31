@@ -19,9 +19,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller(userController::class)->group(function(){
-    // auth route signIn
-    Route::post('/authenticate',"signIn")->name("signIn");
-    // auth route signUp
-    Route::post('/signup',"signUp")->name("signUp");
+Route::group(['middleware' => ['web']], function () {
+    Route::controller(userController::class)->group(function(){
+        // auth route signIn
+        Route::post('/authenticate',"signIn")->name("signIn");
+        // auth route signUp
+        Route::post('/signup',"signUp")->name("signUp");
+    });
 });
+

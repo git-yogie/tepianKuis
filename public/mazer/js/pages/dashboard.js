@@ -1,116 +1,84 @@
-var optionsProfileVisit = {
+
+let table = new simpleDatatables.DataTable(document.getElementById("table-kuis"))
+table.on("datatable.init", function () {
+	adaptPageDropdown();
+	adaptPagination();
+
+	// modifikasi top data table supaya display flex;
+	var tableTop = document.querySelector(".dataTable-top");
+	tableTop.classList.add("d-flex")
+	tableTop.classList.add("justify-content-between")
+});
+
+table.on("datatable.init", function () {
+
+});
+
+
+// add bs5 item on data table
+
+function adaptPageDropdown() {
+	const selector = table.wrapper.querySelector(".dataTable-selector");
+	selector.parentNode.parentNode.insertBefore(selector, selector.parentNode);
+	selector.classList.add("form-select");
+}
+
+function adaptPagination() {
+	const paginations = table.wrapper.querySelectorAll(
+		"ul.dataTable-pagination-list"
+	);
+
+	for (const pagination of paginations) {
+		pagination.classList.add(...["pagination", "pagination-primary"]);
+	}
+
+	const paginationLis = table.wrapper.querySelectorAll(
+		"ul.dataTable-pagination-list li"
+	);
+
+	for (const paginationLi of paginationLis) {
+		paginationLi.classList.add("page-item");
+	}
+
+	const paginationLinks = table.wrapper.querySelectorAll(
+		"ul.dataTable-pagination-list li a"
+	);
+
+	for (const paginationLink of paginationLinks) {
+		paginationLink.classList.add("page-link");
+	}
+}
+
+
+
+// data untuk chart permintaan api
+var permintaanAPI = {
 	annotations: {
 		position: 'back'
 	},
 	dataLabels: {
-		enabled:false
+		enabled: true
 	},
 	chart: {
 		type: 'bar',
 		height: 300
 	},
 	fill: {
-		opacity:1
+		opacity: 1
 	},
 	plotOptions: {
 	},
 	series: [{
-		name: 'sales',
-		data: [9,20,30,20,10,20,30,20,10,20,30,20]
+		name: 'Permintaan',
+		data: [85, 100, 90, 200]
 	}],
 	colors: '#435ebe',
 	xaxis: {
-		categories: ["Jan","Feb","Mar","Apr","May","Jun","Jul", "Aug","Sep","Oct","Nov","Dec"],
+		categories: ["Jul 15", "jul 16", "Jul 17", "Jul 18"],
 	},
 }
-let optionsVisitorsProfile  = {
-	series: [70, 30],
-	labels: ['Male', 'Female'],
-	colors: ['#435ebe','#55c6e8'],
-	chart: {
-		type: 'donut',
-		width: '100%',
-		height:'350px'
-	},
-	legend: {
-		position: 'bottom'
-	},
-	plotOptions: {
-		pie: {
-			donut: {
-				size: '30%'
-			}
-		}
-	}
-}
-
-var optionsEurope = {
-	series: [{
-		name: 'series1',
-		data: [310, 800, 600, 430, 540, 340, 605, 805,430, 540, 340, 605]
-	}],
-	chart: {
-		height: 80,
-		type: 'area',
-		toolbar: {
-			show:false,
-		},
-	},
-	colors: ['#5350e9'],
-	stroke: {
-		width: 2,
-	},
-	grid: {
-		show:false,
-	},
-	dataLabels: {
-		enabled: false
-	},
-	xaxis: {
-		type: 'datetime',
-		categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z","2018-09-19T07:30:00.000Z","2018-09-19T08:30:00.000Z","2018-09-19T09:30:00.000Z","2018-09-19T10:30:00.000Z","2018-09-19T11:30:00.000Z"],
-		axisBorder: {
-			show:false
-		},
-		axisTicks: {
-			show:false
-		},
-		labels: {
-			show:false,
-		}
-	},
-	show:false,
-	yaxis: {
-		labels: {
-			show:false,
-		},
-	},
-	tooltip: {
-		x: {
-			format: 'dd/MM/yy HH:mm'
-		},
-	},
-};
-
-let optionsAmerica = {
-	...optionsEurope,
-	colors: ['#008b75'],
-}
-let optionsIndonesia = {
-	...optionsEurope,
-	colors: ['#dc3545'],
-}
 
 
-
-var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
-var chartVisitorsProfile = new ApexCharts(document.getElementById('chart-visitors-profile'), optionsVisitorsProfile)
-var chartEurope = new ApexCharts(document.querySelector("#chart-europe"), optionsEurope);
-var chartAmerica = new ApexCharts(document.querySelector("#chart-america"), optionsAmerica);
-var chartIndonesia = new ApexCharts(document.querySelector("#chart-indonesia"), optionsIndonesia);
-
-chartIndonesia.render();
-chartAmerica.render();
-chartEurope.render();
-chartProfileVisit.render();
-chartVisitorsProfile.render()
+// insilasisasi chart
+var ChartpermintaanAPI = new ApexCharts(document.querySelector("#chart-permintaan-api"), permintaanAPI);
+ChartpermintaanAPI.render();

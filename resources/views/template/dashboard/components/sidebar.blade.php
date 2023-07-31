@@ -1,10 +1,15 @@
 @php
     use Illuminate\Http\Request;
-    // mengambil url dan mengaktifkan menu yang saat ini dibuka. 
-    $request = Request::capture();
-    $array_url = explode("/",$request->getPathInfo());
-    
-    $last_url = $array_url[count($array_url)-1]
+    use Illuminate\Support\Facades\Route;
+
+    $route = Route::getCurrentRoute();
+    $routeSplit = ["dashboard"];
+    if($route){
+        $routeSplit = explode(".",$route->getName());
+    }
+    $root = $routeSplit[0];
+
+
 @endphp
 
 <div id="sidebar" class="active">
@@ -52,7 +57,7 @@
             <ul class="menu">
                 <li class="sidebar-title">Dashboard</li>
 
-                <li class="sidebar-item @if ($last_url  == "dashboard") active  @endif ">
+                <li class="sidebar-item @if ($root  == "dashboard") active  @endif ">
                     <a href="{{ route('dashboard') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
@@ -63,7 +68,7 @@
 
 
                 <li class="sidebar-title">Kuis</li>
-                <li class="sidebar-item @if ($last_url  == "pustaka") active  @endif "">
+                <li class="sidebar-item @if ($root  == "pustaka") active  @endif "">
                     <a href="{{ route('pustaka') }}" class='sidebar-link'>
                         <i class="bi bi-collection-fill"></i>
                         <span>Pustaka Kuis</span>
@@ -73,13 +78,13 @@
 
                 <li class="sidebar-title">Peserta</li>
 
-                <li class="sidebar-item @if ($last_url  == "peserta") active  @endif "">
+                <li class="sidebar-item @if ($root  == "peserta") active  @endif "">
                     <a href="{{ route('peserta') }}" class='sidebar-link'>
                         <i class="bi bi-person-fill"></i>
                         <span>Peserta</span>
                     </a>
                 </li>
-                <li class="sidebar-item @if ($last_url  == "hasil") active  @endif "">
+                <li class="sidebar-item @if ($root  == "hasil") active  @endif "">
                     <a href="{{ route('hasil') }}" class='sidebar-link'>
                         <i class="bi bi-file-earmark-bar-graph-fill"></i>
                         <span>Hasil</span>

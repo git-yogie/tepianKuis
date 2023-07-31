@@ -17,13 +17,15 @@ $(document).ready(function () {
                     showToast(toastContainer,`<b>Gagal</b> ${response.data.message}`,'error')
                 }else{
                     showToast(toastContainer,"<b>Sukses</b> Berhasil Masuk!",'success')
+
+                    
                 }
               
                 lazyLoader("#signInBtn", false, "Masuk", "Masuk");
             })
             .catch(function (error) {
                 console.log(error)
-                console.log("ok")
+        
                 showToast(toastContainer,"Error <b>"+error.response.status + "</b> "+error.response.statusText,'error')
                 lazyLoader("#signInBtn", false, "Masuk", "Masuk");
             })

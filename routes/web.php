@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\dashboard;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,30 +14,56 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+|Aturan penamaan Route 
+|------------------------------------------------------------------------------
+|{pastikan bahwa route seperti dashboard/profil di beri nama dashboard.profile}
+|penggunaan tanda titik mempengaruhi pengaktifan menu.
+*/
+
 Route::get('/', function () {
     return view("template.main-page.pages.landingPage");
 });
 
-Route::get("/Daftar",function(){
+Route::get("/Daftar", function () {
     return view("template.main-page.pages.signUpPage");
 })->name("daftar");
 
 
 // dashboard user
-Route::get("/dashboard",function(){
-    return view("pages.dashboard.index");
-})->name("dashboard");
+Route::controller(dashboard::class)->group(function(){
+    Route::get("/dashboard","index")->name("dashboard");
+})->middleware("auth");
 
 // dashboard -> pustaka kuis
-Route::get("kuis/pustaka",function(){
+Route::get("kuis/pustaka", function () {
     return view("pages.dashboard.pustaka");
-    
+
 })->name("pustaka");
 
-Route::get("peserta/",function(){
+Route::get("peserta/", function () {
     return view("pages.dashboard.peserta");
 })->name("peserta");
-Route::get("peserta/hasil",function(){
+Route::get("peserta/hasil", function () {
     return view("pages.dashboard.hasil");
 })->name("hasil");
 // end dashboard route
+
+Route::get("/pustaka/kuis/{idKuis}", function () {
+    return view("pages.dashboard.kuis_detail");
+})->name("pustaka.kuis");
+
+Route::get("/pustaka/kuis/editor/{jenis}", function ($jenis) {
+    return view("pages.dashboard.kuis_editor.template.editor");
+})->name("pustaka.kuis.editor");
+
+// ---------------------------- Client Area----------------------------------
+Route::get("kuis/preview/{mode}", function ($mode) {
+
+    if ($mode == "cbt") {
+        return view("template.quiz_template.quiz");
+    } else {
+        return view("template.quiz_template.form");
+    }
+})->name("pustaka.kuis.preview");
+// ---------------------------------------------------------------------------
