@@ -9,6 +9,7 @@ id="masuk">
 
         <div class="modal-body p-5 pt-0">
             <form id="signInForm">
+                 @csrf
                 <div class="form-floating mb-3">
                     <input type="email" name="email"  class="form-control rounded-3" id="email"
                         placeholder="email@example.com" required>

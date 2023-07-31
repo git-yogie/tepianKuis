@@ -6,36 +6,41 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class userController extends Controller
 {
     public function signUp(Request $request){
-        // $validate = $request->validate([
-        //     "name"=>"required",
-        //     "email"=>"required | email",
-        //     "password"=>"required"
-        // ],
-        // [
-        //     'name.required' => 'Nama tidak boleh kosong',
-        //     'email.required' => 'Email tidak boleh kosong',
-        //     'password.required' => 'Password tidak boleh kosong'
-        // ]
-        // );
+        $validate = $request->validate([
+            "namaDaftar"=>"required",
+            "emailDaftar"=>"required | email |unique:users,email",
+            "passwordDaftar"=>"required",
+            "konfirmasiPassword"=>"required | same:passwordDaftar"
+        ],
+        [
+            'emailDaftar.unique'=> "email sudah terdaftar!",
+            'namaDaftar.required' => 'Nama tidak boleh kosong',
+            'emailDaftar.required' => 'Email tidak boleh kosong',
+            'passwordDaftar.required' => 'Password tidak boleh kosong',
+            "konfirmasiPassword.same"=>"Masukan password yang sama!"
+        ]
+        );
 
-        // $user = new User;
-        // $user->name = $request->name;
-        // $user->email = $request->email;
+        $user = new User;
+        $user->nama = $request->namaDaftar;
+        $user->email = $request->emailDaftar;
+        do {
+            $randomString = Str::random(6);
+        } while (User::where('api_key', $randomString)->exists());
+        $user->api_key = $randomString;
+        $user->password =   bcrypt($request->passwordDaftar);
+        $user->save();
 
-        // $user->password = Hash::make($request->password);
-        // $user->save();
-
-        // return response()->json([
-        //     'status' => true,
-        //     'message' => 'Register Berhasil',
-        //     'data' => $user
-        // ]);
-
-        return response()->json($request);
+        return response()->json([
+            'status' => true,
+            'message' => 'Register Berhasil',
+            'data' => $user
+        ]);
     }
 
     public function signIn(Request $request){
@@ -50,6 +55,7 @@ class userController extends Controller
         ]
         );
 
+    
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
