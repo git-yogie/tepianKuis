@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::post('/authenticate',"signIn")->name("signIn");
         // auth route signUp
         Route::post('/signup',"signUp")->name("signUp");
+    })->middleware("auth");
+
+    Route::controller(PesertaController::class)->group(function(){
+        Route::post("/peserta","store")->name("addPeserta");
+        Route::get("/peserta","index")->name("allPeserta");
+        Route::get("/peserta/{id}","show")->name("getPeserta");
+        Route::delete("/peserta/{id}","destroy")->name("delPeserta");
+        Route::put("/peserta/{id}","edit")->name("upPeserta");
     });
 });
 

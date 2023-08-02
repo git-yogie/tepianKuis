@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
 
@@ -23,7 +24,7 @@ use App\Http\Controllers\dashboard;
 
 Route::get('/', function () {
     return view("template.main-page.pages.landingPage");
-});
+})->name("landingPage");
 
 Route::get("/Daftar", function () {
     return view("template.main-page.pages.signUpPage");
@@ -35,7 +36,12 @@ Route::controller(dashboard::class)->group(function(){
     Route::get("/dashboard","index")->name("dashboard");
 })->middleware("auth");
 
+Route::controller(userController::class)->group(function(){
+    Route::get("/dashboard/logout")->name("dashboard.logout");
+})->middleware("auth"); 
+
 // dashboard -> pustaka kuis
+// ------------------------------ dev Area ------------------------------------
 Route::get("kuis/pustaka", function () {
     return view("pages.dashboard.pustaka");
 
@@ -43,7 +49,7 @@ Route::get("kuis/pustaka", function () {
 
 Route::get("peserta/", function () {
     return view("pages.dashboard.peserta");
-})->name("peserta");
+})->name("peserta")->middleware("auth");
 Route::get("peserta/hasil", function () {
     return view("pages.dashboard.hasil");
 })->name("hasil");
@@ -65,5 +71,6 @@ Route::get("kuis/preview/{mode}", function ($mode) {
     } else {
         return view("template.quiz_template.form");
     }
+    
 })->name("pustaka.kuis.preview");
 // ---------------------------------------------------------------------------
