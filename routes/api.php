@@ -33,7 +33,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::get("/peserta","index")->name("allPeserta");
         Route::get("/peserta/{id}","show")->name("getPeserta");
         Route::delete("/peserta/{id}","destroy")->name("delPeserta");
-        Route::put("/peserta/{id}","edit")->name("upPeserta");
+        Route::post("/peserta/edit/{id}","update")->name("upPeserta");
     });
 });
 

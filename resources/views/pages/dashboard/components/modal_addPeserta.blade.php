@@ -2,12 +2,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5">Tambah Peserta</h1>
+                <h1 class="modal-title fs-5" id="modalTitle">Tambah Peserta</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form action="#" id="tambahPesertaForm">
                     <div class="modal-body">
+                        <input type="hidden" name="id" id="idIn">
                         @csrf
                         <label for="nama">Nama: </label>
                         <div class="form-group">
@@ -46,6 +47,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                 <button type="submit" class="btn btn-primary"  id="tambah-peserta">Tambah Peserta</button>
+                <button class="btn btn-primary d-none"  id="edit-peserta">Edit Peserta</button>
             </div>
             </form>
         </div>

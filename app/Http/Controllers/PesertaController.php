@@ -61,9 +61,13 @@ class PesertaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Peserta $peserta)
+    public function show($id)
     {
-        //
+        $peserta = Peserta::find($id);
+        if (!$peserta) {
+            return response()->json(['message' => 'Peserta not found'], 404);
+        }
+        return response($peserta,200);
     }
 
     /**
@@ -77,9 +81,31 @@ class PesertaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Peserta $peserta)
+    public function update(Request $request,$id)
     {
-        //
+    
+        $request->validate([
+            "nama"=>"required",
+            "nis"=>"required",
+            "email"=>"required |email",
+            "kelas"=>"required",
+        ],
+        [
+            "nama.required"=>"nama tidak boleh kosong",
+            "nis.required"=>"nis tidak boleh kosong",
+            "email.required"=>"email tidak boleh kosong",
+            "email.email"=>"email tidak valid",
+            "kelas.required"=>"kelas tidak boleh kosong",
+        ]);
+
+        $peserta = Peserta::find($id);
+        $peserta->nama = $request->nama;
+        $peserta->nis = $request->nis;
+        $peserta->email = $request->email;
+        $peserta->kelas = $request->kelas;
+        $peserta->save();
+
+        return response(["message"=>"di hapus"],200);
     }
 
     /**
