@@ -17,7 +17,7 @@ $(document).ready(function () {
                     showToast(toastContainer,`<b>Gagal</b> ${response.data.message}`,'error')
                 }else{
                     showToast(toastContainer,"<b>Sukses</b> Berhasil Masuk!",'success')
-
+                    window.location.href = "/dashboard"
                     
                 }
               
