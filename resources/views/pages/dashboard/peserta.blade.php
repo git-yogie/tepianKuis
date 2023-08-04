@@ -9,7 +9,7 @@
         }
     </style>
        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
-       <link rel="stylesheet" href="{{ asset("mazer/extensions/toastify-js/src/toastify.css") }}">
+    
 @endsection
 
 @section('page-heading', 'Peserta Kuis')
@@ -55,10 +55,9 @@
 @section('js')
     {{-- <script src="{{ asset('mazer') }}/extensions/simple-datatables/umd/simple-datatables.js"></script> --}}
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="{{ asset("mazer/extensions/toastify-js/src/toastify.js") }}"></script>
+  
 
 
     <script src="{{ asset('assets/js/dashboard/peserta.js') }}"></script>

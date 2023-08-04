@@ -92,7 +92,7 @@ function deleteData(id) {
             dataTable.ajax.reload();
         })
         .catch(function (error) {
-
+            
         })
 }
 
@@ -161,7 +161,7 @@ function validateFormTambah(error) {
         let elemet = document.getElementById(element);
         let field = document.getElementById(element + "_field");
         if (element in error) {
-
+            
 
             elemet.classList.add("is-invalid");
             field.classList.add("invalid-feedback");

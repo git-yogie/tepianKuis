@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
@@ -39,6 +40,11 @@ Route::controller(dashboard::class)->group(function(){
 Route::controller(userController::class)->group(function(){
     Route::get("/dashboard/logout")->name("dashboard.logout");
 })->middleware("auth"); 
+
+Route::controller(QuizController::class)->group(function(){
+    Route::post("/quiz/banner/upload","bannerHandler")->name("banner_upload");
+
+});
 
 // dashboard -> pustaka kuis
 // ------------------------------ dev Area ------------------------------------

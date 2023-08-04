@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PesertaController;
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get("/peserta/{id}","show")->name("getPeserta");
         Route::delete("/peserta/{id}","destroy")->name("delPeserta");
         Route::post("/peserta/edit/{id}","update")->name("upPeserta");
+    });
+
+    Route::controller(QuizController::class)->group(function (){
+        Route::post("/quiz","store")->name("addQuiz");
+        Route::get("/quiz","index")->name("allQuiz");
+        Route::get("/quiz/{id}","show")->name("getQuiz");
+        Route::delete("/quiz/{id}","destroy")->name("delQuiz");
+        Route::post("/quiz/edit/{id}","update")->name("upQuiz");
     });
 });
 
