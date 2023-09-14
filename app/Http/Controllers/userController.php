@@ -30,7 +30,7 @@ class userController extends Controller
         $user->nama = $request->namaDaftar;
         $user->email = $request->emailDaftar;
         do {
-            $randomString = Str::random(6);
+            $randomString = Str::random(32);
         } while (User::where('api_key', $randomString)->exists());
         $user->api_key = $randomString;
         $user->password =   bcrypt($request->passwordDaftar);

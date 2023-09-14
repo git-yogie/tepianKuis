@@ -15,27 +15,27 @@
                     <div class="col-md-8">
                         <div class="row">
                             <div class="col-lg-6">
-                                <a href={{ route('pustaka.kuis.editor', 'pilihanGanda') }}class="border">
+                                <a href={{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }} class="border">
                                     <p class="text-muted mb-0">Pilihan Ganda</p>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Pilihan Ganda
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ] ) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Pilihan Ganda
                                 </a>
                                 <div class="mt-2 d-flex flex-column">
                                     <p class="text-muted fw-1 mb-0">Seleksi</p>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Benar Salah Ganda</a>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Benar Salah</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Benar Salah Ganda</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Benar Salah</a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mt-2 d-flex flex-column">
                                     <p class="text-muted fw-1 mb-0">Mengurutkan</p>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Mengategorikan</a>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Menyusun Pembuktian</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Mengategorikan</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Menyusun Pembuktian</a>
                                 </div>
                                 <div class="mt-2 d-flex flex-column">
                                     <p class="text-muted fw-1 mb-0">Menyelesaikan</p>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Isian Singkat</a>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Isian Matematis</a>
-                                    <a  href="{{ route('pustaka.kuis.editor', 'pilihanGanda') }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Cloze Procedure</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['isianSingkat',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Isian Singkat</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Isian Matematis</a>
+                                    <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Cloze Procedure</a>
                                 </div>
                             </div>
                         </div>

@@ -3,21 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\Soal;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
-use Storage;
 
 class QuizController extends Controller
 {
+    function __construct(){
+        $this->middleware("auth");
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $var = Quiz::withCount('soal')->where("user_id",Auth::user()->id)->latest()->get();
+    
+        return response($var,200);
     }
+
+
+    public function quizPage($code){
+        $var = Quiz::where("user_id",Auth::user()->id)->where("kuis_code",$code)->get();
+        
+        return view("pages.dashboard.kuis_detail",['var'=>$var]);
+    }
+
+    public function quizEditor($jenis,$code,$id_soal=null){
+
+        $data = [];
+        $data['var'] = Quiz::where("user_id",Auth::user()->id)->where("kuis_code",$code)->get();
+        if($id_soal != null){
+            $data["soal"] = Soal::where("id",$id_soal)->first();
+        }
+        $view = '';
+        switch ($jenis) {
+            case 'pilihanGanda':
+               $view = view("pages.dashboard.kuis_editor.editor.pilihan_ganda",$data);
+                break;
+            case 'isianSingkat';
+            $view = view("pages.dashboard.kuis_editor.editor.isian_singkat",$data);
+            default:
+                
+                break;
+        }
+        
+        return $view;
+
+    }
+
+
 
     public function bannerHandler(Request $request)
     {
@@ -91,6 +128,7 @@ class QuizController extends Controller
         $quiz->mata_pelajaran = $request->mata_pelajaran;
         $quiz->tingkatan = $request->tingkatan;
         $quiz->user_id = Auth::user()->id;
+        $quiz->konfigurasi = "{}";
         // --------------------------------------->| Don't Touch
 
         if ($request->file_name != null) {
@@ -105,9 +143,10 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Quiz $quiz)
+    public function show($kode_kuis)
     {
-        //
+        $quiz = Quiz::where('kuis_code',$kode_kuis)->first();
+        return response($quiz,200);
     }
 
     /**
@@ -133,4 +172,19 @@ class QuizController extends Controller
     {
         //
     }
+
+    public function updateConfig($id,Request $request){
+        try{
+        $quiz = Quiz::find($id);
+        $quiz->konfigurasi = json_encode($request->all());
+
+        $quiz->save();
+        return response(["message"=>"konfigurasi di update"],200);
+        }
+        catch(\Exception $e){
+            return response(["message"=>$e->getMessage()],500);
+        }
+    }
+
+    
 }

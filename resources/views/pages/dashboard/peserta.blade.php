@@ -9,6 +9,7 @@
         }
     </style>
        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+       <link rel="stylesheet" href="{{ asset("mazer/extensions/sweetalert2/sweetalert2.min.css") }}">
     
 @endsection
 
@@ -57,8 +58,8 @@
 
     
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
-  
-
+    <script src="{{ asset("mazer/extensions/sweetalert2/sweetalert2.min.js") }}"></script>
+    
 
     <script src="{{ asset('assets/js/dashboard/peserta.js') }}"></script>
 @endsection

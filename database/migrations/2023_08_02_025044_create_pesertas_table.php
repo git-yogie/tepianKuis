@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string("nama")->nullable(false);
             $table->string("nis")->nullable(false)->default(0)->unique();
-            $table->string("email")->nullable(true);
+            $table->string("email")->nullable(false)->unique();
             $table->string("kelas")->nullable(false)->default(0);
             $table->foreignIdFor(User::class,"id_users");
             $table->timestamps();

@@ -33,16 +33,20 @@ class PesertaController extends Controller
 
         $request->validate([
             "nama"=>"required",
-            "nis"=>"required",
-            "email"=>"required |email",
+            "nis"=>"required | unique:pesertas,nis",
+            "email"=>"required |email| unique:pesertas,email",
             "kelas"=>"required",
         ],
         [
+            
             "nama.required"=>"nama tidak boleh kosong",
             "nis.required"=>"nis tidak boleh kosong",
             "email.required"=>"email tidak boleh kosong",
             "email.email"=>"email tidak valid",
             "kelas.required"=>"kelas tidak boleh kosong",
+            "nis.unique"=>"NISN ini sudah dimiliki oleh peserta lain.",
+            "email.unique"=>"email ini sudah dimiliki oleh peserta lain"
+
         ]);
 
         $peserta = new Peserta();
@@ -87,7 +91,7 @@ class PesertaController extends Controller
         $request->validate([
             "nama"=>"required",
             "nis"=>"required",
-            "email"=>"required |email",
+            "email"=>"required | email ",
             "kelas"=>"required",
         ],
         [
@@ -96,6 +100,7 @@ class PesertaController extends Controller
             "email.required"=>"email tidak boleh kosong",
             "email.email"=>"email tidak valid",
             "kelas.required"=>"kelas tidak boleh kosong",
+            "unique" => "Email sudah ada pada peserta lainnya"
         ]);
 
         $peserta = Peserta::find($id);

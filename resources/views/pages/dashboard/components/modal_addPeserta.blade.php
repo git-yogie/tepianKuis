@@ -15,7 +15,7 @@
                             <input id="nama" name="nama" type="text" placeholder="Nama Siswa anda"
                                 class="form-control" />
                                 <div class="" id="nama_field">
-
+                                    
                                 </div>
                         </div>
                         <label for="nis">Nis </label>

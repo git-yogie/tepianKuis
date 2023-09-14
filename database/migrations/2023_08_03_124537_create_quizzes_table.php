@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum("tingkatan",["PAUD","TK","SD","SMP","SMA","SMK","Perguruan Tinggi"]);
             $table->foreignId("user_id");
             $table->string("banner")->nullable(true)->default(null);
+            $table->json("konfigurasi")->default(null);
             $table->timestamps(); 
         });
     }

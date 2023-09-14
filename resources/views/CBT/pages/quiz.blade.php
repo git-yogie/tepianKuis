@@ -30,7 +30,7 @@
             <div class="container-fluid rounded-4 px-4 d-flex justify-content-between align-items-center">
                 <a class="navbar-brand" href="#">Tepian Kuis</a>
                 <div class="d-none d-lg-block">
-                    <h4>Kuis Perangkat Lunak</h4>
+                    <h4 id="nama_kuis"></h4>
                 </div>
                 <div class="">
                     <p class="text-muted mb-0">Sisa Waktu</p>
@@ -94,8 +94,9 @@
                         </div>
                         <div class="col-8">
                             <div class="card-body d-flex flex-column align-items-center">
-                                <p class="fw-bold  text-center mt-2">Yogie Prayoga</p>
-                                <p class=" fs-5 text-body-secondary text-center">7897655</p>
+                                <p class="fw-bold  text-center mt-2">{{ session("peserta_kuis.nama") }}</p>
+                                <p class=" fs-5 text-body-secondary text-center">{{ session("peserta_kuis.nis") }}</p>
+                                <input type="hidden" name="" id="id_user" value="{{ session("peserta_kuis.id") }}">
                             </div>
                         </div>
                     </div>
@@ -103,7 +104,7 @@
                 </div>
                 <div class="card ">
                     <div class="card-body container p-auto">
-                        <p class="fw-medium fs-5 text-center">Kuis Perangkat Lunak</p>
+                        <p class="fw-medium fs-5 text-center" >No Soal</p>
                         <div class="row justify-content-start m-auto" id="no_soal">
                             
                         </div>
@@ -120,13 +121,11 @@
           <div class="modal-content">
             <div class="modal-header">
               <h1 class="modal-title fs-5" id="staticBackdropLabel">Waktu Habis!</h1>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               Hasil Quiz anda akan disimpan.
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               <button type="button" class="btn btn-primary">Lihat Hasil</button>
             </div>
           </div>
