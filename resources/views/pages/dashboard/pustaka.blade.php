@@ -21,13 +21,13 @@
 @section('page-heading', 'Pustaka Kuis')
 
 @section('main')
-    @include('pages.dashboard.components.kuis.modal_addKuis');
+    @include('pages.dashboard.components.kuis.modal_addKuis')
     <div class="d-flex justify-content-between mb-3">
         <div class="col-auto">
             <label class="visually-hidden" for="autoSizingInputGroup"><i class="bi bi-search"></i></label>
             <div class="input-group">
                 <div class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></div>
-                <input type="text" class="form-control" id="autoSizingInputGroup" placeholder="Cari Kuis">
+                <input type="text" class="form-control" id="cariKuis" placeholder="Cari Kuis">
             </div>
         </div>
 
