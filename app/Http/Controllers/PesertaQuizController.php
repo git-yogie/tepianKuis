@@ -35,6 +35,15 @@ class PesertaQuizController extends Controller
         
     }
 
+    public function savePesertaAnswer(Request $request,$id){
+        
+        $peserta = pesertaQuiz::find($id);           
+
+        $peserta->jawaban_kuis_cbt = $request->result;
+        $peserta->save();
+
+        return  response(["message"=>"berhasil",201]);
+    }
     /**
      * Store a newly created resource in storage.
      */
@@ -58,10 +67,6 @@ class PesertaQuizController extends Controller
         }
         pesertaQuiz::insert($peserta);
         return response(["message"=>"berhasil",201]);
-    }
-
-    public function simpanJawaban(){
-        
     }
 
     /**
@@ -104,4 +109,9 @@ class PesertaQuizController extends Controller
         // $peserta->delete();
         // return response(["message"=>"Di hapus"],204);
     }
+
+    public function getResult($id,$kode_kuis){
+        $pesertaQuiz = pesertaQuiz::find($id)->where("kuis_code",$kode_kuis)->get()->first();
+        return response($pesertaQuiz,200);
+    }   
 }

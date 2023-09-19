@@ -118,8 +118,7 @@
                     </div>
                     <div class="mt-2">
                         <label for="waktu_mulai">Waktu berakhir</label>
-                        <input type="text" id="waktu_berakhir" class="form-control"
-                            placeholder="Pilih Waktu berakhir">
+                        <input type="text" id="waktu_berakhir" class="form-control" placeholder="Pilih Waktu berakhir">
                     </div>
                     <div class="mt-2">
                         <label for="waktu_mulai">Lama Waktu Kuis</label>
@@ -226,23 +225,30 @@
         document.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightBlock(block);
         });
+        const deletePrompt = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger mx-3',
+                cancelButton: 'btn btn-success'
+            },
+            buttonsStyling: false
+        })
 
 
 
         var dsa = window.location.protocol + "//" + window.location.host + "/api";
 
-        document.addEventListener("DOMContentLoaded", function() {
-          
 
-            const soalContainer = document.getElementById("containerSoal");
+        const soalContainer = document.getElementById("containerSoal");
 
-            function loadSoal(){
-                axios.get(dsa + "/soal/{{ $var[0]->kuis_code }}")
+        function loadSoal() {
+            axios.get(dsa + "/soal/{{ $var[0]->kuis_code }}")
                 .then(function(response) {
                     const data = response.data.data;
                     console.log(data.length);
-                    document.getElementById("jumlahPertanyaan").innerHTML = "Soal Kuis &bull; " + data.length +
+                    document.getElementById("jumlahPertanyaan").innerHTML = "Soal Kuis &bull; " + data
+                        .length +
                         " Pertanyaan"
+                    let iterate = 0
                     data.forEach(element => {
                         soalContainer.appendChild(soal(element));
                     });
@@ -250,13 +256,8 @@
                 .catch(function(error) {
 
                 })
-            }
-            loadSoal();
-
-            
-           
-        })
-
+        }
+        loadSoal();
     </script>
     <script src="{{ asset('assets/js/kuisDetail/clipboard_doc.js') }}"></script>
     <script src="{{ asset('assets/js/kuisDetail/konfigurasi.js') }}"></script>

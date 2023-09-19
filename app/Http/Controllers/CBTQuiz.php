@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quiz;
 use App\Models\Peserta;
 use App\Models\pesertaQuiz;
-use App\Models\Quiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class CBTQuiz extends Controller
 {
@@ -44,7 +45,10 @@ class CBTQuiz extends Controller
             if ($peserta_kuis->exists()) {
                 session([
                     "peserta_kuis" => [
+                        
                         "id" => $peserta->first()->id,
+                        "kode_kuis"=>$kuis->kuis_code,
+                        "id_peserta"=>$peserta_kuis->first()->id,
                         "nama" => $peserta->first()->nama,
                         "nis" => $peserta->first()->nis,
                         "email" => $peserta->first()->email,
@@ -61,6 +65,10 @@ class CBTQuiz extends Controller
         }
 
 
+
+    }
+
+    public function result($quiz,$peserta){ 
 
     }
 
@@ -83,8 +91,15 @@ class CBTQuiz extends Controller
     //     return $request
     // }
 
-    public function hasil()
+    public function hasil($kode_kuis,$id_peserta)
     {
+        if(Session::has(""))
+        $pesertaQuiz = pesertaQuiz::find($id_peserta)->where("kuis_code",$kode_kuis)->get()->first();
+        $quiz = Quiz::where("kuis_code",$kode_kuis)->get()->first();
+        $parseResult = json_decode($pesertaQuiz->jawaban_kuis_cbt);
+        $parseKonfigurasi = json_decode($quiz->konfigurasi);
+        
+        return view("CBT.pages.hasilQuiz",compact(["parseResult","parseKonfigurasi"]));
 
     }
 

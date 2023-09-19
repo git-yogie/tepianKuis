@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\File;
 class QuizController extends Controller
 {
     function __construct(){
-        $this->middleware("auth");
+        $this->middleware("auth")->only(["protectedMethod"]);
     }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    protected function index()
     {
         $var = Quiz::withCount('soal')->where("user_id",Auth::user()->id)->latest()->get();
     
@@ -25,13 +25,13 @@ class QuizController extends Controller
     }
 
 
-    public function quizPage($code){
+    protected function quizPage($code){
         $var = Quiz::where("user_id",Auth::user()->id)->where("kuis_code",$code)->get();
         
         return view("pages.dashboard.kuis_detail",['var'=>$var]);
     }
 
-    public function quizEditor($jenis,$code,$id_soal=null){
+    protected function quizEditor($jenis,$code,$id_soal=null){
 
         $data = [];
         $data['var'] = Quiz::where("user_id",Auth::user()->id)->where("kuis_code",$code)->get();
@@ -56,7 +56,7 @@ class QuizController extends Controller
 
 
 
-    public function bannerHandler(Request $request)
+    protected function bannerHandler(Request $request)
     {
         $path = 'files/';
         if (!File::exists(public_path($path))) {
@@ -80,6 +80,12 @@ class QuizController extends Controller
         //
     }
 
+    public function getConfig($id){
+
+        $var = Quiz::find($id);
+        return response($var->konfigurasi,200);
+
+    }
 
     public function pruneFile(){
       
@@ -100,7 +106,7 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    protected function store(Request $request)
     {
 
         $request->validate(

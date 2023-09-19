@@ -24,11 +24,15 @@ function soal(data) {
 function isianSingkat(data, soal_data, kode_kuis) {
     const soal = JSON.parse(soal_data);
     var cardDiv = document.createElement('div');
+
     cardDiv.classList.add('card');
+    cardDiv.id = `cardSoal_${data.id}`
 
     // Membuat elemen div dengan class "card-header"
     var headerDiv = document.createElement('div');
     headerDiv.classList.add('card-header', 'd-flex', 'justify-content-between', 'align-items-baseline');
+    var buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("d-flex", "justify-content-between", "align-items-baseline");
 
     var titleH6 = document.createElement('h6');
     titleH6.innerHTML = `${data.judul_soal} &bull; ${data.poin} Poin`;
@@ -38,8 +42,21 @@ function isianSingkat(data, soal_data, kode_kuis) {
     editButton.innerHTML = '<i class="fa-solid fa-file-pen me-1"></i>Edit';
     editButton.href = window.location.protocol + "//" + window.location.host + `/pustaka/kuis/editor/edit/${data.jenis_soal}/${kode_kuis}/${data.id}`
 
+    var deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn-danger", "btn", "btn-sm", "rounded-5", "px-2", "ms-2");
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'
+    deleteButton.addEventListener("click", function () {
+        var confirmDelete = confirm("Apakah anda yakin ingin menghapus soal ini?");
+        if (confirmDelete) {
+            deleteSoal(data.id);
+        }
+    })
+
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(deleteButton);
     headerDiv.appendChild(titleH6);
-    headerDiv.appendChild(editButton);
+
+    headerDiv.appendChild(buttonContainer);
 
     var bodyDiv = document.createElement('div');
     bodyDiv.classList.add('card-body');
@@ -56,7 +73,7 @@ function isianSingkat(data, soal_data, kode_kuis) {
 
     var label = document.createElement("label");
 
-    label.setAttribute("for",data.id);
+    label.setAttribute("for", data.id);
 
     var input = document.createElement("input");
     input.classList.add("form-control");
@@ -81,94 +98,121 @@ function isianSingkat(data, soal_data, kode_kuis) {
 }
 
 
+function pilihanGanda(data, soal_data, kode_kuis) {
+    const soal = JSON.parse(soal_data);
+    var cardDiv = document.createElement('div');
+    cardDiv.classList.add('card');
+    cardDiv.id = `cardSoal_${data.id}`
 
-    function pilihanGanda(data, soal_data, kode_kuis) {
-        const soal = JSON.parse(soal_data);
-        var cardDiv = document.createElement('div');
-        cardDiv.classList.add('card');
+    // Membuat elemen div dengan class "card-header"
+    var headerDiv = document.createElement('div');
+    headerDiv.classList.add('card-header', 'd-flex', 'justify-content-between', 'align-items-baseline');
+    var buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("d-flex", "justify-content-between", "align-items-baseline");
 
-        // Membuat elemen div dengan class "card-header"
-        var headerDiv = document.createElement('div');
-        headerDiv.classList.add('card-header', 'd-flex', 'justify-content-between', 'align-items-baseline');
-        var buttonContainer = document.createElement("div");
-        buttonContainer.classList.add("d-flex", "justify-content-between", "align-items-baseline");
-    
-        // Membuat elemen h6 untuk judul
-        var titleH6 = document.createElement('h6');
-        titleH6.innerHTML = `${data.judul_soal} &bull; ${data.poin} Poin`;
+    // Membuat elemen h6 untuk judul
+    var titleH6 = document.createElement('h6');
+    titleH6.innerHTML = `${data.judul_soal} &bull; ${data.poin} Poin`;
 
-        // Membuat elemen button untuk Edit
-        var editButton = document.createElement('a');
-        editButton.classList.add('btn-success', 'btn', 'btn-sm', 'rounded-5', 'px-2');
-        editButton.innerHTML = '<i class="fa-solid fa-file-pen me-1"></i>Edit';
-        editButton.href = window.location.protocol + "//" + window.location.host + `/pustaka/kuis/editor/edit/${data.jenis_soal}/${kode_kuis}/${data.id}`
-       
-        // in Elemen untuk tombol delete 
-        var deleteButton = document.createElement("button");
-        deleteButton.classList.add("btn-danger", "btn", "btn-sm", "rounded-5", "px-2", "ms-2");
-        deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'
-        deleteButton.addEventListener("click",function(){
-            
-        });
+    // Membuat elemen button untuk Edit
+    var editButton = document.createElement('a');
+    editButton.classList.add('btn-success', 'btn', 'btn-sm', 'rounded-5', 'px-2');
+    editButton.innerHTML = '<i class="fa-solid fa-file-pen me-1"></i>Edit';
+    editButton.href = window.location.protocol + "//" + window.location.host + `/pustaka/kuis/editor/edit/${data.jenis_soal}/${kode_kuis}/${data.id}`
 
+    // in Elemen untuk tombol delete 
+    var deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn-danger", "btn", "btn-sm", "rounded-5", "px-2", "ms-2");
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i>'
+    deleteButton.addEventListener("click", function () {
+        var confirmDelete = confirm("Apakah anda yakin ingin menghapus soal ini?");
+        if (confirmDelete) {
+            deleteSoal(data.id);
+        }
+    })
 
-        buttonContainer.appendChild(editButton);
-        buttonContainer.appendChild(deleteButton);
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(deleteButton);
 
-        headerDiv.appendChild(titleH6);
-        headerDiv.appendChild(buttonContainer);
+    headerDiv.appendChild(titleH6);
+    headerDiv.appendChild(buttonContainer);
 
-        // Menambahkan headerDiv ke dalam cardDiv
-        cardDiv.appendChild(headerDiv);
+    // Menambahkan headerDiv ke dalam cardDiv
+    cardDiv.appendChild(headerDiv);
 
-        // Membuat elemen div dengan class "card-body"
-        var bodyDiv = document.createElement('div');
-        bodyDiv.classList.add('card-body');
+    // Membuat elemen div dengan class "card-body"
+    var bodyDiv = document.createElement('div');
+    bodyDiv.classList.add('card-body');
 
-        // Membuat elemen p untuk teks pertanyaan
-        var questionP = document.createElement('p');
-        questionP.innerHTML = soal.pertanyaan;
+    // Membuat elemen p untuk teks pertanyaan
+    var questionP = document.createElement('p');
+    questionP.innerHTML = soal.pertanyaan;
 
-        // Menambahkan teks pertanyaan ke dalam bodyDiv
-        bodyDiv.appendChild(questionP);
+    // Menambahkan teks pertanyaan ke dalam bodyDiv
+    bodyDiv.appendChild(questionP);
 
-        // Membuat elemen div dengan id "jawaban"
-        var jawabanDiv = document.createElement('div');
-        jawabanDiv.id = 'jawaban';
-        jawabanDiv.classList.add('row', 'mx-2');
+    // Membuat elemen div dengan id "jawaban"
+    var jawabanDiv = document.createElement('div');
+    jawabanDiv.id = 'jawaban';
+    jawabanDiv.classList.add('row', 'mx-2');
 
-        // Membuat radio button dan label beserta teksnya
-        var options = soal.pilihan;
-        options.forEach(function (option) {
-            var optionDiv = document.createElement('div');
-            optionDiv.classList.add('col-md-12', 'form-check');
+    // Membuat radio button dan label beserta teksnya
+    var options = soal.pilihan;
+    options.forEach(function (option) {
+        var optionDiv = document.createElement('div');
+        optionDiv.classList.add('col-md-12', 'form-check');
 
-            var radioInput = document.createElement('input');
-            radioInput.classList.add('form-check-input');
-            radioInput.type = 'radio';
-            radioInput.name = data.id;
-            radioInput.id = option.id + "_" + data.id; // Anda perlu memberikan id yang berbeda untuk setiap radio input
-            if (option.benar) {
-                radioInput.checked = true;
+        var radioInput = document.createElement('input');
+        radioInput.classList.add('form-check-input');
+        radioInput.type = 'radio';
+        radioInput.name = data.id;
+        radioInput.id = option.id + "_" + data.id; // Anda perlu memberikan id yang berbeda untuk setiap radio input
+        if (option.benar) {
+            radioInput.checked = true;
+        }
+        radioInput.disabled = true
+        var label = document.createElement('label');
+        label.classList.add('form-check-label');
+        label.htmlFor = 'flexRadioDefault1'; // Sesuaikan dengan id radio input yang sesuai
+        label.innerHTML = option.text;
+
+        optionDiv.appendChild(radioInput);
+        optionDiv.appendChild(label);
+
+        jawabanDiv.appendChild(optionDiv);
+    });
+
+    // Menambahkan jawabanDiv ke dalam bodyDiv
+    bodyDiv.appendChild(jawabanDiv);
+
+    // Menambahkan bodyDiv ke dalam cardDiv
+    cardDiv.appendChild(bodyDiv);
+
+    // Menambahkan cardDiv ke dalam DOM di dalam elemen dengan id "cardContainer"
+    return cardDiv;
+}
+
+function deleteSoal(id) {
+    axios.delete(dsa + `/soal/delete/${id}`)
+        .then(function (response) {
+            if (response.status == 200) {
+                Toastify({
+                    text: "Berhasil Menghapus!",
+                    duration: 3000
+                }).showToast();
+                var card = document.getElementById(`cardSoal_${id}`);
+                card.remove();
+
             }
-            radioInput.disabled = true
-            var label = document.createElement('label');
-            label.classList.add('form-check-label');
-            label.htmlFor = 'flexRadioDefault1'; // Sesuaikan dengan id radio input yang sesuai
-            label.innerHTML = option.text;
-
-            optionDiv.appendChild(radioInput);
-            optionDiv.appendChild(label);
-
-            jawabanDiv.appendChild(optionDiv);
-        });
-
-        // Menambahkan jawabanDiv ke dalam bodyDiv
-        bodyDiv.appendChild(jawabanDiv);
-
-        // Menambahkan bodyDiv ke dalam cardDiv
-        cardDiv.appendChild(bodyDiv);
-
-        // Menambahkan cardDiv ke dalam DOM di dalam elemen dengan id "cardContainer"
-        return cardDiv;
-    }
+        })
+        .catch(function (error) {
+            console.log(error``)
+            Toastify({
+                text: `<strong>${error.status}</strong> ${error.message}`,
+                duration: 1000,
+                style: {
+                    background: "linear-gradient(to right, #e74c3c, #c0392b)",
+                },
+            }).showToast();
+        })
+}

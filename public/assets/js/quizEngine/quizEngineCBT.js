@@ -17,16 +17,36 @@ document.addEventListener("DOMContentLoaded", (e) => {
     const soalTitle = document.getElementById("nomerSoal");
     const tombolSimpan = document.getElementById("selesai");
     const modalSelesai = new bootstrap.Modal('#modal_waktuHabis');
+    const konfirmasi_selesai = document.getElementById("konfirmasi_selesai");
+
+    const modalSelesaiQuiz = new bootstrap.Modal("#modal_selesai")
+
+
+
+    const jawabanStorage = localStorage.getItem("jawaban_user_" + url[url.length - 1])
+
+
 
     const idPeserta = document.getElementById("id_user");
     console.log(idPeserta.value)
     data = {};
     var jawabanUser = [];
+    if (jawabanStorage != null) {
+        jawabanUser = JSON.parse(jawabanStorage);
+        console.log(jawabanUser);
+
+    }
+
     tombolSimpan.addEventListener("click", () => {
-        simpanJawabanUser();
+        modalSelesaiQuiz.show();
     });
 
+    konfirmasi_selesai.addEventListener("click", () => {
+        finishQuiz();
+    })
+
     function simpanJawabanUser() {
+        const id_user = document.getElementById("id_user");
         var id = id_user.value;
         var kode_kuis = url[url.length - 1];
 
@@ -51,16 +71,40 @@ document.addEventListener("DOMContentLoaded", (e) => {
             persentase = (poin / jumlahPoin) * 100;
         }
 
+
+
+        localStorage.setItem("jawaban_user_" + url[url.length - 1], JSON.stringify(jawabanUser));
+        const end_time = localStorage.getItem("end_time_" + url[url.length - 1]);
+        const start_time = localStorage.getItem("start_time_" + url[url.length - 1]);
+        const now = new Date();
+        const startTimeStamp = new Date(start_time);
+
+        const waktu_mengerjakan = now.getTime() - startTimeStamp.getTime();  
+
         var hasil = {
             jumlahBenar: jumlahBenar,
             nilai: persentase,
             poin: poin,
             jumlahPoin: jumlahPoin,
             jawaban_user: jawabanUser,
+            waktu_mengerjakan: waktu_mengerjakan,
         }
 
         console.log(hasil)
+        localStorage.removeItem("end_time_" + url[url.length - 1]);
+        localStorage.removeItem("start_time_" + url[url.length - 1]);
+        localStorage.removeItem("jawaban_user_" + url[url.length - 1]);
         // axios.post(baseUrl + `quiz/save/jawaban/${kode_kuis}/${id}`,
+        var send = JSON.stringify(hasil);
+        console.log(send);
+        axios.post(`${baseUrl}quiz/save/jawaban/${id}`,{"result":send})
+        .then(function(response){
+            console.log(response)
+            window.location = window.location.protocol + "//" + window.location.host + "/cbt/hasil/"+url[url.length - 1]+"/"+id;
+        })
+        .catch(function(err){
+
+        })
     }
     const self = this
     axios.get(endPoint)
@@ -68,7 +112,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
         .then((result) => {
 
             self.data = result.data.data;
-            // setData(data)
+            // mengacak soal
             data.sort(() => Math.random() - 0.5);
 
             axios.get(baseUrl + "quiz/" + url[url.length - 1])
@@ -86,11 +130,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
             setNoSoal(data);
             setSoal("soal_" + (index_soal + 1) + "_" + data[index_soal].id, data[index_soal]);
+            noSoalReset(data)
             soalTitle.innerHTML = "Nomor Soal " + index_soal
             document.addEventListener("click", (e) => {
                 var target = e.target;
                 if (target.classList.contains("tombol-soal")) {
-
                     var target_id = target.id;
                     var params = target_id.split("_")
                     getUserAnswer(data[index_soal - 1]);
@@ -163,8 +207,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
             var selisih = waktuberakhir.getTime() - now.getTime();
             totalSeconds = Math.floor(selisih / 1000);
             console.log(totalSeconds);
-            if(totalSeconds < 0){
-                finishQuiz();
+            if (totalSeconds < 0) {
+                waktuHabis();
                 return false;
             }
 
@@ -192,6 +236,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
     }
 
+
     function setNoSoal(data) {
         var i = 0
         data.forEach(element => {
@@ -212,6 +257,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
         });
 
     }
+
+
     function setSoal(targetId, data) {
         var params = targetId.split("_")
         index_soal = params[1];
@@ -359,6 +406,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                             jawaban: checkedRadioButton.id,
                             hasil: hasil
                         })
+                        localStorage.setItem("jawaban_user_" + url[url.length - 1], JSON.stringify(jawabanUser));
                     }
                 }
                 break;
@@ -394,17 +442,17 @@ document.addEventListener("DOMContentLoaded", (e) => {
             return false;
         }
     }
-    function simpan() {
-        jawabanUser.forEach(element => {
-            console.log(element);
-        });
-    }
+
 
     function finishQuiz() {
-        modalSelesai.show();
-        localStorage.setItem("jawaban_user_"+url[url.length - 1],JSON.stringify(jawabanUser));
-        
+        simpanJawabanUser();
+    }
 
+    function waktuHabis() {
+        // finishQuiz()
+
+        modalSelesai.show();
+        // console.log(waktuHabis)
     }
 
 })

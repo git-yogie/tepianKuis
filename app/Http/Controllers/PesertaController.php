@@ -125,4 +125,7 @@ class PesertaController extends Controller
         $peserta->delete();
         return response(["message"=>"Di hapus"],204);
     }
+    
+
+    
 }

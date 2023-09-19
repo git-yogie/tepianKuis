@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CBTQuiz;
+use App\Http\Controllers\hasilController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
@@ -57,9 +58,6 @@ Route::get("kuis/pustaka", function () {
 Route::get("peserta/", function () {
     return view("pages.dashboard.peserta");
 })->name("peserta")->middleware("auth");
-Route::get("peserta/hasil", function () {
-    return view("pages.dashboard.hasil");
-})->name("hasil");
 // end dashboard route
 
 Route::get("/pustaka/kuis/{idKuis}", [QuizController::class, 'quizPage'])->name("pustaka.kuis");
@@ -79,6 +77,7 @@ Route::get("kuis/preview/{mode}", function ($mode) {
 // ---------------------------------------------------------------------------
 Route::controller(CBTQuiz::class)->group(function () {
 
+    Route::get("/cbt/hasil/{kode_kuis}/{id_peserta}","hasil")->name("cbt.result");
     Route::get("/cbt/{id_quiz}", "index")->name("cbt")->middleware("check.peserta");
     Route::get("/login/cbt", "login")->name('cbt.login');
     Route::get('/cbt', function () {
@@ -90,4 +89,10 @@ Route::controller(CBTQuiz::class)->group(function () {
     Route::post("/cbt/authenticate", "authPeserta")->name("cbt.auth");
     Route::get("/cbt/peserta/unauthenticate/", "forgetPeserta")->name("cbt.unauth");
 
+});
+
+Route::controller(hasilController::class)->group(function(){
+    Route::get('/hasil/',"daftarKuis")->name("hasil.daftar");
+    Route::get('/hasil/{kode_kuis}',"daftarPesertaKuis")->name("hasil.daftar.peserta");
+    Route::get('/hasil/{kode_kuis}/peserta/{id_peserta}',"hasilPeserta")->name("hasil.daftar.peserta.hasil");
 });

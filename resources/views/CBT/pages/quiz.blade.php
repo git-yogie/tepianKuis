@@ -17,6 +17,7 @@
         .spanigen {
             transition: opacity 0.5 ease-in-out;
         }
+
         .bg-quiz {
             background-color: F2F7FF;
         }
@@ -34,9 +35,8 @@
                 </div>
                 <div class="">
                     <p class="text-muted mb-0">Sisa Waktu</p>
-                    <p class="fw-bold" style="margin-top: 0" id="timerText">10 : 00 : 00</p>
+                    <p class="fw-bold" style="margin-top: 0" id="timerText">00 : 00 : 00</p>
                 </div>
-
             </div>
         </nav>
         <div class="row mt-3">
@@ -70,7 +70,8 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="">
-                                <button class="btn btn-primary mt-3 sebelumnya" ><i class="fa-solid fa-chevron-left "></i> Sebelumnya
+                                <button class="btn btn-primary mt-3 sebelumnya"><i
+                                        class="fa-solid fa-chevron-left "></i> Sebelumnya
                                 </button>
                                 <button class="btn btn-primary mt-3 ms-auto selanjutnya">Selanjutnya <i
                                         class="fa-solid fa-chevron-right"></i></button>
@@ -82,7 +83,7 @@
                                         class="fa-solid fa-magnifying-glass-minus"></i></button>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </div>
             <div class="col-lg-3 mt-sm-2">
@@ -94,9 +95,10 @@
                         </div>
                         <div class="col-8">
                             <div class="card-body d-flex flex-column align-items-center">
-                                <p class="fw-bold  text-center mt-2">{{ session("peserta_kuis.nama") }}</p>
-                                <p class=" fs-5 text-body-secondary text-center">{{ session("peserta_kuis.nis") }}</p>
-                                <input type="hidden" name="" id="id_user" value="{{ session("peserta_kuis.id") }}">
+                                <p class="fw-bold  text-center mt-2">{{ session('peserta_kuis.nama') }}</p>
+                                <p class=" fs-5 text-body-secondary text-center">{{ session('peserta_kuis.nis') }}</p>
+                                <input type="hidden" name="" id="id_user"
+                                    value="{{ session('peserta_kuis.id_peserta') }}">
                             </div>
                         </div>
                     </div>
@@ -104,9 +106,9 @@
                 </div>
                 <div class="card ">
                     <div class="card-body container p-auto">
-                        <p class="fw-medium fs-5 text-center" >No Soal</p>
+                        <p class="fw-medium fs-5 text-center">No Soal</p>
                         <div class="row justify-content-start m-auto" id="no_soal">
-                            
+
                         </div>
                     </div>
                 </div>
@@ -116,21 +118,39 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modal_waktuHabis" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal fade" id="modal_waktuHabis" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h1 class="modal-title fs-5" id="staticBackdropLabel">Waktu Habis!</h1>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Waktu Habis!</h1>
+                </div>
+                <div class="modal-body">
+                    Hasil Quiz anda akan disimpan.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Lihat Hasil</button>
+                </div>
             </div>
-            <div class="modal-body">
-              Hasil Quiz anda akan disimpan.
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Lihat Hasil</button>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
+    <div class="modal fade" id="modal_selesai" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Selesai?</h1>
+                </div>
+                <div class="modal-body">
+                    Anda Yakin sudah selesai?, periksa kembali jawaban anda.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="konfirmasi_selesai"">Selesai</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="{{ asset('assets/module/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -145,7 +165,8 @@
     {{-- <script src="{{ asset('assets/js/app.js') }}"></script> --}}
     <script src="{{ asset('assets/js/quiz.js') }}"></script>
     <script src="{{ asset('assets/js/quizEngine/quizEngineCBT.js') }}"></script>
-    
+    <script src="{{ asset('assets/js/quizEngine/quizConfig.js') }}"></script>
+
 </body>
 
 </html>

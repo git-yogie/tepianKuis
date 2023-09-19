@@ -85,7 +85,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item @if ($root  == "hasil") active  @endif "">
-                    <a href="{{ route('hasil') }}" class='sidebar-link'>
+                    <a href="{{ route('hasil.daftar') }}" class='sidebar-link'>
                         <i class="bi bi-file-earmark-bar-graph-fill"></i>
                         <span>Hasil</span>
                     </a>

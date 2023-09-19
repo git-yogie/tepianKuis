@@ -85,8 +85,10 @@ class SoalController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Soal $soal)
+    public function destroy($id)
     {
-        //
+        $soal = Soal::find($id);
+        $soal->delete();
+        return response(["message"=>$soal],200);
     }
 }

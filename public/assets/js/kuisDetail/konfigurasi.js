@@ -9,26 +9,61 @@ var tampilkanPoin = document.getElementById("tampilkanPoin");
 const tombolSimpan = document.getElementById("simpan_konfigurasi");
 const id_kuis = document.getElementById("id_kuis").value;
 
-
-flatpickr(waktu_mulai_el, {
+const datePicker_waktuMulai = flatpickr(waktu_mulai_el, {
     enableTime: true,
     time_24hr: true,
     dateFormat: "Y-m-d H:i",
 });
 
-flatpickr(waktu_berakhir_el, {
+const datePicker_waktuBerakhir = flatpickr(waktu_berakhir_el, {
     enabledTime: true,
     time_24hr: true,
     dateFormat: "Y-m-d H:i"
 });
 
-flatpickr(waktu_el, {
+const timePicker_lamaWaktu = flatpickr(waktu_el, {
     enableTime: true,
     enableSeconds: true,
     time_24hr: true,
     dateFormat: "H:i:S",
     noCalendar: true
-})
+});
+
+
+onLoadKonfigurasi()
+function onLoadKonfigurasi(){
+    axios.get(`${baseUrl}api/quiz/config/get/${id_kuis}`)
+    .then(function(response){
+        console.log(response.data)
+        if(response.data){
+            const data_val= response.data;
+            if(data_val.waktu_mulai != null){
+                datePicker_waktuMulai.setDate(data_val.waktu_mulai)
+            }
+            if(data_val.waktu_berakhir != null){
+                datePicker_waktuMulai.setDate(data_val.waktu_berakhir)
+            }
+            if(data_val.waktu != null){
+                timePicker_lamaWaktu.setDate(data_val.waktu);
+            }
+            if(data_val.ulangi != null){
+                bisaUlang.checked = data_val.ulangi;
+            }
+            if(data_val.tampilkanPoin != null){
+                tampilkanPoin.checked = data_val.tampilkanPoin;
+            }
+
+        }
+    })
+    .catch(function(error){
+        console.log(error)
+    });
+}
+
+
+
+
+
 
 tombolSimpan.addEventListener("click", function (e) {
 

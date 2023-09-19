@@ -50,6 +50,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::delete("/quiz/{id}", "destroy")->name("delQuiz");
         Route::post("/quiz/edit/{id}", "update")->name("upQuiz");
         Route::post("/quiz/update/config/{id}","updateConfig")->name("upQuizConfig");
+        Route::get("/quiz/config/get/{id}","getConfig")->name("quiz.getConfig");
     });
 
 
@@ -58,6 +59,7 @@ Route::group(['middleware' => ['web']], function () {
         Route::post("/soal/edit/{id}", "update")->name("editSoal");
         Route::get("/soal/{id_kuis}", "index")->name("allSoal");
         Route::get("/soal/show/{id}", "show")->name("getSoal");
+        Route::delete("/soal/delete/{id}","destroy")->name("deleteSoal");
        
     });
 
@@ -65,7 +67,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::post("quiz/add/peserta", "store")->name("addToKuis");
         Route::get("/quiz/get/peserta/{kode_kuis}", "index")->name("quiz.peserta.get");
         Route::post("/quiz/delete/peserta", "destroy")->name("quiz.delete");
-        Route::post("/quiz/save/jawaban/{kode_kuis}/{peserta_id}","simpanJawaban")->name("quiz.simpan");
+        Route::post("/quiz/save/jawaban/{peserta_id}","savePesertaAnswer")->name("quiz.simpan");
+        Route::get("/quiz/peserta/result/{kode_kuis}/{peserta_id}","getResult")->name("quiz.peserta.result");
 
     });
 
