@@ -118,11 +118,13 @@ document.addEventListener("DOMContentLoaded", (e) => {
             axios.get(baseUrl + "quiz/" + url[url.length - 1])
                 .then((response) => {
                     var quiz_data = response.data;
-                    console.log(quiz_data);
-                    var konfigurasi = JSON.parse(quiz_data.konfigurasi);
-
-                    startCountdownTimer(konfigurasi.waktu);
                     nama_kuis.innerHTML = quiz_data.nama
+                    console.log(quiz_data.konfigurasi);
+                    if(quiz_data.konfigurasi != "{}"){
+                        var konfigurasi = JSON.parse(quiz_data.konfigurasi);
+                        startCountdownTimer(konfigurasi.waktu);
+                    }
+                    
                 })
                 .catch((error) => {
 
@@ -442,7 +444,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
             return false;
         }
     }
-
 
     function finishQuiz() {
         simpanJawabanUser();

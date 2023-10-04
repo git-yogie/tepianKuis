@@ -125,6 +125,11 @@ class PesertaController extends Controller
         $peserta->delete();
         return response(["message"=>"Di hapus"],204);
     }
+
+    public function api_getPeserta(){
+        $peserta = Peserta::where("id_users", Auth::user())->get();
+        return response($peserta,200);
+    }
     
 
     

@@ -10,6 +10,18 @@ use Illuminate\Support\Str;
 
 class userController extends Controller
 {
+
+    public function updateUser(Request $request){
+        $user = User::find(Auth::user()->id);
+        $user->nama = $request->nama;
+        $user->email = $request->email;
+        if(isset($request->password)){
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+
+        return response(["message"=>"berhasil","user"=>$user],200);
+    }
     public function signUp(Request $request){
         $validate = $request->validate([
             "namaDaftar"=>"required",
@@ -60,7 +72,7 @@ class userController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
-
+            
             return response()->json([
                 'status' => true,
                 'message' => 'Login Berhasil',
@@ -76,6 +88,20 @@ class userController extends Controller
             ]);
         }
 
+    }
+
+    public function refreshToken($user_id){
+        $user = User::find($user_id);
+        do {
+            $randomString = Str::random(32);
+        } while (User::where('api_key', $randomString)->exists());
+        $user->api_key = $randomString;
+        // $user->save();
+        return response(["message"=>"berhasil","new_token"=>$randomString],200);
+    }
+    public function signOut(){
+        Auth::logout();
+        return response()->redirectTo(route("landingPage"));
     }
 
     public function imageUpload(){

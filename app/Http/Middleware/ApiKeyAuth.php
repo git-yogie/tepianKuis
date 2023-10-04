@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\apiLog;
 use Closure;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -23,6 +24,13 @@ class ApiKeyAuth
         }
 
         $valid = User::where("api_key",$apiKey)->first();
+        $logs = new apiLog();
+        $logs->Logs =  json_encode($request->header());
+        $logs->id_user = $valid->id;
+        $logs->request_from = $request->ip();
+        $logs->token = $apiKey;
+        $logs->save();
+        auth()->setUser($valid);
 
         $request->attributes->add(["valid_user"=>$valid]);
 

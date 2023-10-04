@@ -114,4 +114,9 @@ class PesertaQuizController extends Controller
         $pesertaQuiz = pesertaQuiz::find($id)->where("kuis_code",$kode_kuis)->get()->first();
         return response($pesertaQuiz,200);
     }   
+
+    public function api_getHasilQuiz($kode_kuis){
+        $pesertaQuiz = pesertaQuiz::where("kuis_code",$kode_kuis)->get();
+        return response($pesertaQuiz,200);
+    }
 }

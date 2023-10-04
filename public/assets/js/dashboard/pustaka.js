@@ -4,35 +4,39 @@ document.addEventListener("DOMContentLoaded", function () {
     var create_quiz_button = this.getElementById("button_buat_kuis");
     var form = this.getElementById("form_buat_kuis");
     const cardContainer = this.getElementById("cardContainer");
- 
-
+    const inputCari = document.getElementById("cariKuis");
 
     // protocol + base Host
     const baseHost = window.location.host;
     const protocol = window.location.protocol + "//";
     const baseUrl = protocol + baseHost;
     // 
-
+    var dataKuis = [];
     this.getElementById("form_create_quiz").addEventListener("hidden.bs.modal", function () {
         form.reset();
         document.getElementById("file_name").value = "";
         document.getElementById("image_preview").setAttribute("src", protocol + baseHost + "/images/quiz-picture.png")
     });
 
-    getQuiz()
-
+    getQuiz();
+    console.log(inputCari)
+    inputCari.addEventListener("keyup", function () {
+        var key = inputCari.value;
+        populateCard(key)
+    });
 
     function getQuiz() {
         axios.get(baseUrl + "/api/quiz")
             .then(function (response) {
-                populateCard(response.data)
+                dataKuis = response.data;
+                populateCard();
             })
             .catch(function (error) {
                 console.log(error)
             });
     }
 
-    
+
 
     // menambahkan kuis baru;
     form.addEventListener("submit", function (e) {
@@ -53,6 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
 
     })
+ 
     create_quiz_button.addEventListener("click", function () {
         modal.show();
     })
@@ -81,46 +86,82 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function populateCard(data) {
+    function populateCard(searchByName = null) {
+        const data = dataKuis;
         cardContainer.innerHTML = "";
+        if (searchByName != null) {
+            // var filterData = data.filter(item => {
+            //     let idx = -1;
+            //     for (let char of searchByName){
+            //         idx = item.nama.indexOf(char, idx + 1);
+            //         if(idx === -1){
+            //             return false;
+            //         }
+            //     }
+            //     return true;
+            // })
+            // var filterData = data.filter(item => item.nama.toLowerCase().includes(searchByName))
+            
 
-        for (const key in data) {
-            if (data.hasOwnProperty.call(data, key)) {
-                const element = data[key];
-                var card = createKuisCard(
-                    element.nama,
-                    element.mata_pelajaran,
-                    element.tingkatan,
-                    element.kuis_code,
-                    element.banner,
-                    element.soal_count
-                );
-                cardContainer.appendChild(card);
+            for (const key in data) {
+                if (data.hasOwnProperty.call(data, key)) {
+                    const element = data[key];
+                    if(element.nama.toLowerCase().includes(searchByName)){
+                        var card = createKuisCard(
+                            element.nama,
+                            element.mata_pelajaran,
+                            element.tingkatan,
+                            element.kuis_code,
+                            element.banner,
+                            element.soal_count,
+                            element.peserta_count
+                        );
+                        cardContainer.appendChild(card);
+                    }
+                }
+            }
+
+        } else {
+            for (const key in data) {
+                if (data.hasOwnProperty.call(data, key)) {
+                    const element = data[key];
+                    var card = createKuisCard(
+                        element.nama,
+                        element.mata_pelajaran,
+                        element.tingkatan,
+                        element.kuis_code,
+                        element.banner,
+                        element.soal_count,
+                        element.peserta_count
+                    );
+                    cardContainer.appendChild(card);
+                }
             }
         }
-
     }
 
-    function createKuisCard(nama, mata_pelajaran, tingkatan, kuis_code, banner,soal_count) {
+
+
+    function createKuisCard(nama, mata_pelajaran, tingkatan, kuis_code, banner, soal_count, peserta_count) {
         const colDiv = document.createElement('div');
         colDiv.classList.add('col-lg-4');
 
         const link = document.createElement('a');
-        link.href = baseUrl+"/pustaka/kuis/" + kuis_code;
+        link.href = baseUrl + "/pustaka/kuis/" + kuis_code;
         link.classList.add('card', 'rounded-4', 'kuis-item');
 
         const cardDiv = document.createElement('div');
         cardDiv.classList.add('card-body', 'p-3');
 
         const img = document.createElement('img');
-        if(banner != null){
+        if (banner != null) {
             img.src = baseUrl + "/files/" + banner;
-        }else{
-            img.src = baseUrl +"/images/quiz-picture.png"
+        } else {
+            img.src = baseUrl + "/images/quiz-picture.png"
         }
         img.classList.add('card-img', 'rounded-4');
         img.alt = nama;
- 
+
         const innerDiv = document.createElement('div');
         innerDiv.classList.add('p-2');
 
@@ -139,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const paragraph = document.createElement('p');
         paragraph.classList.add('text-muted');
         paragraph.style.fontSize = "12px";
-        paragraph.textContent = mata_pelajaran + ` \u2022 20 Peserta \u2022 ${soal_count} Soal`;
+        paragraph.textContent = mata_pelajaran + ` \u2022 ${peserta_count} Peserta \u2022 ${soal_count} Soal`;
 
         // Append elements
         innerDiv.appendChild(badgeKuis);

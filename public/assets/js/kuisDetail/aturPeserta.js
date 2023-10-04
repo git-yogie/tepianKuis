@@ -17,6 +17,7 @@ const checkAllPesertaQuiz = document.getElementById("checkPesertaKuis")
 const checkAllPeserta = document.getElementById("checkPeserta")
 
 const listPeserta = document.getElementById("listPeserta");
+const jumlahPeserta = document.getElementById("jumlahPeserta");
 
 console.log(listPeserta);
 
@@ -105,7 +106,7 @@ function getPeserta() {
             container_peserta.innerHTML = ""
             container_peserta_quiz.innerHTML = ""
             listPeserta.innerHTML = ""
-            console.log(response);
+            jumlahPeserta.innerHTML = data_peserta_quiz.length
             data_peserta.forEach(element => {
                 container_peserta.appendChild(elementPeserta(element, "peserta"))
             });
@@ -201,13 +202,13 @@ function listPesertaElement(data) {
     nameDiv.appendChild(nameStrong);
 
     // Membuat elemen <span> untuk badge dengan kelas "badge bg-danger rounded-pill"
-    var badgeSpan = document.createElement('span');
-    badgeSpan.className = 'badge bg-danger rounded-pill';
-    badgeSpan.innerHTML = '0/3';
+    // var badgeSpan = document.createElement('span');
+    // badgeSpan.className = 'badge bg-danger rounded-pill';
+    // badgeSpan.innerHTML = '0/3';
 
     // Menyusun elemen-elemen yang sudah dibuat
     listItem.appendChild(nameDiv);
-    listItem.appendChild(badgeSpan);
+    // listItem.appendChild(badgeSpan);
 
     // Menambahkan elemen <li> ke dalam elemen tujuan (misalnya, elemen dengan ID "list-container")
 

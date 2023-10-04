@@ -39,7 +39,6 @@ class CBTQuiz extends Controller
             ->where("nis", $request->input("nis"));
 
         $kuis = Quiz::where("kuis_code", $request->input("kode-kuis"));
-
         if ($kuis->exists() && $peserta->exists()) {
             $peserta_kuis = pesertaQuiz::where("id_kuis", $kuis->first()->id)->where("id_peserta", $peserta->first()->id);
             if ($peserta_kuis->exists()) {
@@ -47,7 +46,7 @@ class CBTQuiz extends Controller
                     "peserta_kuis" => [
                         
                         "id" => $peserta->first()->id,
-                        "kode_kuis"=>$kuis->kuis_code,
+                        "kode_kuis"=>$request->input("kode-kuis"),
                         "id_peserta"=>$peserta_kuis->first()->id,
                         "nama" => $peserta->first()->nama,
                         "nis" => $peserta->first()->nis,
@@ -93,13 +92,14 @@ class CBTQuiz extends Controller
 
     public function hasil($kode_kuis,$id_peserta)
     {
-        if(Session::has(""))
+        // if(Session::has("")){
+
+        // }
         $pesertaQuiz = pesertaQuiz::find($id_peserta)->where("kuis_code",$kode_kuis)->get()->first();
-        $quiz = Quiz::where("kuis_code",$kode_kuis)->get()->first();
+        $quiz = Quiz::with("soal")->where("kuis_code",$kode_kuis)->get()->first();
         $parseResult = json_decode($pesertaQuiz->jawaban_kuis_cbt);
         $parseKonfigurasi = json_decode($quiz->konfigurasi);
-        
-        return view("CBT.pages.hasilQuiz",compact(["parseResult","parseKonfigurasi"]));
+        return view("CBT.pages.hasilQuiz",compact(["quiz","parseResult","parseKonfigurasi"]));
 
     }
 

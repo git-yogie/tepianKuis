@@ -11,10 +11,30 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="row px-3">
-                    <div class="col-md-8">
-                        <div class="row">
-                            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <a class="card border border-secondary"
+                            href="{{ route('pustaka.kuis.editor', ['pilihanGanda', $var[0]->kuis_code]) }}">
+                            <div class="card-body">
+                                <h3>Pilihan Ganda</h3>
+                                <p>Soal berupa instruksi dan 4 atau lebih pilihan jawaban yang bisa di pilih oleh
+                                    peserta kuis.</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="{{ route('pustaka.kuis.editor', ['isianSingkat', $var[0]->kuis_code]) }}"
+                            class="card  border border-secondary"">
+                            <div class="card-body">
+                                <h3>Isian Singkat</h3>
+                                <p>Soal Berupa instruksi dan input isian singkat</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- <div class="col-lg-6">
                                 <a href={{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }} class="border">
                                     <p class="text-muted mb-0">Pilihan Ganda</p>
                                     <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ] ) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Pilihan Ganda
@@ -37,23 +57,10 @@
                                     <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Isian Matematis</a>
                                     <a  href="{{ route('pustaka.kuis.editor', ['pilihanGanda',$var[0]->kuis_code ]) }}" class="mb-2"><i class="fa-solid fa-list-ul"></i>  Cloze Procedure</a>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="card rounded" style="background-color:#f2f7ff">
-                            <div class="card-header">Pilihan Ganda</div>
-                            <div class="card-body">
-                                <img src="{{ asset('images/quiz-picture.png') }}"
-                                class="card-img rounded-4" alt="" srcset="">
-                                <p class="text-center mt-3">Soal berupa instruksi dan 4 atau lebih pilihan 
-                                    jawaban yang bisa di pilih oleh peserta kuis.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                            </div> --}}
             </div>
-
         </div>
+
     </div>
+</div>
 </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\quizApi;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\SoalController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\hasilController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -71,14 +72,27 @@ Route::group(['middleware' => ['web']], function () {
         Route::get("/quiz/peserta/result/{kode_kuis}/{peserta_id}","getResult")->name("quiz.peserta.result");
 
     });
-
-
-
-
 });
 
 Route::middleware('quiz.api.auth')->group(function () {
     Route::controller(quizApi::class)->group(function () {
         Route::get("embed/quiz/get/{quiz}", "index");
+        Route::post("embed/quiz/save/{quiz}","saveAnswer");
     });
+
+    Route::controller(hasilController::class)->group(function(){
+        Route::get("/quiz/peserta/{quiz}","api_daftarPesertaKuis");
+    });
+
+    Route::controller(PesertaQuizController::class)->group(function(){
+        Route::get("/quiz/peserta/hasil/{quiz}","api_getHasilQuiz");
+    });
+    Route::controller(SoalController::class)->group(function(){
+        Route::get("quiz/soal/get/{kode_kuis}","api_getHasilQuiz");
+    });
+    Route::controller(PesertaController::class)->group(function(){
+        Route::get("/quiz/soal/get/peserta","api_getPeserta");
+        Route::post("/quiz/soal/create/peserta","api_createPeserta");        
+    });
+    
 });

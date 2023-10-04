@@ -64,6 +64,7 @@
     {{-- custom js --}}
     <script src="{{ asset('assets/js/app.js') }}"></script>
     <script src="{{ asset('assets/js/authentication.js') }}"></script>
+    <script src="{{ asset("mazer/extensions/sweetalert2/sweetalert2.min.js") }}"></script>
     @yield('js')
 
 

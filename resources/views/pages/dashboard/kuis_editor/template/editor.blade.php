@@ -23,9 +23,10 @@
             </a>
         </div>
         @if (isset($soal))
-            <h5>Edit Soal</h5>
+        <h5>Edit Soal</h5>
         @else
-            <div class="" style="width: 300px">
+        <h5>Buat Soal</h5>
+            {{-- <div class="" style="width: 300px">
                 <select class="form-select" aria-label="Default select example">
                     <option selected><i class="fa-solid fa-list-ul"></i> Pilihan Ganda</option>
                     <option value="1">Benar atau Salah</option>
@@ -33,7 +34,7 @@
                     <option value="3">Menjodohkan</option>
                     <option value="4">Mengurutkan</option>
                 </select>
-            </div>
+            </div> --}}
 
         @endif
       

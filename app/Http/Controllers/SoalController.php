@@ -21,6 +21,13 @@ class SoalController extends Controller
         
     }
 
+    public function api_getSoal($kuis_code){
+        $kuis = Quiz::where("kuis_code",$kuis_code)->first();
+        $data = Soal::where("id_kuis",$kuis->id)->get();
+        
+        return response(["data"=>$data],200);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

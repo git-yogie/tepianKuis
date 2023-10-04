@@ -88,11 +88,11 @@
                         </tr>
                         <tr>
                             <td scope="row">Jawaban Benar</td>
-                            <td>{{ $parseResult->jumlahBenar }}</td>
+                            <td>{{ $parseResult->jumlahBenar }} / {{ count($quiz->soal) }}</td>
                         </tr>
                         <tr>
                             <td scope="row">Jawaban Salah</td>
-                            <td>{{ count($parseResult->jawaban_user) - $parseResult->jumlahBenar }}/90</td>
+                            <td>{{ count($parseResult->jawaban_user) - $parseResult->jumlahBenar }}/{{ count($quiz->soal) }}</td>
                         </tr>
                         <tr>
                             <td scope="row">Waktu Mengerjakan</td>
@@ -100,8 +100,10 @@
                         </tr>
                     </table>
                     <div class="d-flex justify-content-center">
-                        @if ($parseKonfigurasi->ulangi)
-                            <a class="btn me-3 btn-outline-primary" href="">Coba Lagi</a>
+                        @if (isset($parseKonfigurasi->ulangi))
+                            @if ($parseKonfigurasi->ulangi)
+                            <a class="btn me-3 btn-outline-primary" href="{{ route("cbt",$quiz->kuis_code) }}">Coba Lagi</a>
+                            @endif
                         @endif
                         <a class="btn btn-outline-success" href="{{ route('cbt.unauth') }}">Selesai</a>
                     </div>

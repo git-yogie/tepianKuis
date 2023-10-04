@@ -2,7 +2,7 @@
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="modal_kuis">Buat Kuis Baru</h1>
+                <h1 class="modal-title fs-5" id="modal_kuis">Edit Kuis Baru</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -51,7 +51,8 @@
                                     <option value="SMA">SMA</option>
                                     <option value="SMP">SMP</option>
                                     <option value="SD">SD</option>
-                                    <option value="Umum">Umum</option>
+                                    <option value="TK">TK</option>
+                                    <option value="PAUD">Paud</option>
                                   </select>
                                   <div class="" id="tingkatan_kuis_field">
     

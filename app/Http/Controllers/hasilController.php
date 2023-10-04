@@ -32,4 +32,10 @@ class hasilController extends Controller
         return view("pages.dashboard.hasil.jawabanPeserta",compact(["peserta_kuis","kuis","hasil","soal"]));
 
     }
+
+    public function api_daftarPesertaKuis($kode_kuis){
+        $peserta_kuis = pesertaQuiz::with("peserta")->where("kuis_code",$kode_kuis)->get();
+        return response($peserta_kuis,200);
+    }
+    
 }

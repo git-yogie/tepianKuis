@@ -50,35 +50,3 @@ function adaptPagination() {
 }
 
 
-
-// data untuk chart permintaan api
-var permintaanAPI = {
-	annotations: {
-		position: 'back'
-	},
-	dataLabels: {
-		enabled: true
-	},
-	chart: {
-		type: 'bar',
-		height: 300
-	},
-	fill: {
-		opacity: 1
-	},
-	plotOptions: {
-	},
-	series: [{
-		name: 'Permintaan',
-		data: [85, 100, 90, 200]
-	}],
-	colors: '#435ebe',
-	xaxis: {
-		categories: ["Jul 15", "jul 16", "Jul 17", "Jul 18"],
-	},
-}
-
-
-// insilasisasi chart
-var ChartpermintaanAPI = new ApexCharts(document.querySelector("#chart-permintaan-api"), permintaanAPI);
-ChartpermintaanAPI.render();
