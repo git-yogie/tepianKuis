@@ -138,7 +138,7 @@ function addToKuis(id) {
 }
 
 function removeToKuis(id) {
-    axios.post(baseUrl + "api/quiz/delete/peserta/", { ids: id })
+    axios.post(baseUrl + "api/quiz/delete/peserta", { ids: id })
         .then((response) => {
             getPeserta();
         })

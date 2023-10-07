@@ -42,7 +42,7 @@ const Prompt = Swal.mixin({
 form_profile.addEventListener("submit",function(e){
     e.preventDefault();
     var formData = new FormData(form_profile);
-    axios.post(`${baseurl}/dashboard/profile/update/`,formData)
+    axios.post(`${baseurl}/dashboard/profile/update`,formData)
     .then(function(response){
         console.log(response)
         toastFire("success","Berhasil update profile!");
