@@ -64,10 +64,16 @@
                     </a>
                 </li>
 
-
+                <li class="sidebar-item @if ($root  == "doc") active  @endif "">
+                    <a href="{{ route("doc.get-started") }}" class='sidebar-link'>
+                        <i class="bi bi-collection-fill"></i>
+                        <span>Dokumentasi API</span>
+                    </a>
+                </li>
 
 
                 <li class="sidebar-title">Kuis</li>
+                
                 <li class="sidebar-item @if ($root  == "pustaka") active  @endif "">
                     <a href="{{ route('pustaka') }}" class='sidebar-link'>
                         <i class="bi bi-collection-fill"></i>

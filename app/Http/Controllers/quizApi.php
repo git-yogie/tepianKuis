@@ -3,26 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\Quiz;
+use App\Models\Peserta;
+use App\Models\pesertaQuiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class quizApi extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request,$quiz)
+    public function index(Request $request, $quiz)
     {
         $user = $request->attributes->get("valid_user");
-        
-        return Quiz::with("soal")->where("user_id",$user->id)->where("kuis_code",$quiz)->first();
+        $quiz = Quiz::with("soal")->where("user_id", $user->id)->where("kuis_code", $quiz)->first();
+        if ($quiz) {
+            return response($quiz, 200);
+        } else {
+            return response(["message"=>"Tidak ditemukan"], 404);
+        }
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function saveAnswer(Request $request)
+    public function saveAnswer($kuis_code, Request $request)
     {
-        return response($request->all());
+        
+        $peserta = Peserta::where("email",$request->peserta["email"])
+        ->where("nis",$request->peserta["nis"])
+        ->where("id_users",Auth::user()->id)
+        ->first();
+        $kuis = Quiz::where("kuis_code",$kuis_code)->where("user_id",Auth::user()->id)->first();
+
+        $pesertaQuiz = pesertaQuiz::where("id_peserta",$peserta->id)
+        ->where("id_kuis",$kuis->id)->first();
+
+        $savior = pesertaQuiz::find($pesertaQuiz->id);
+        $savior->jawaban_kuis_embed = $request->jawaban;
+        $savior->save();
+
+        return response([$pesertaQuiz]);
     }
 
     /**

@@ -15,34 +15,35 @@ class PesertaQuizController extends Controller
      */
     public function index($kode_kuis)
     {
-        $data["peserta"] = Peserta::whereHas("pesertaQuiz", function($query) use ($kode_kuis) {
+        $data["peserta"] = Peserta::whereHas("pesertaQuiz", function ($query) use ($kode_kuis) {
             $query->where("kuis_code", $kode_kuis);
         }, "=", 0)
-        ->where("id_users", Auth::user()->id)
-        ->get();
-    
-        $data["peserta_quiz"] = pesertaQuiz::with("peserta")->where("id_user", Auth::user()->id)->where("kuis_code",$kode_kuis)->get();
-        
+            ->where("id_users", Auth::user()->id)
+            ->get();
+
+        $data["peserta_quiz"] = pesertaQuiz::with("peserta")->where("id_user", Auth::user()->id)->where("kuis_code", $kode_kuis)->get();
+
         return $data;
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        
+
     }
 
-    public function savePesertaAnswer(Request $request,$id){
-        
-        $peserta = pesertaQuiz::find($id);           
+    public function savePesertaAnswer(Request $request, $id)
+    {
+
+        $peserta = pesertaQuiz::find($id);
 
         $peserta->jawaban_kuis_cbt = $request->result;
         $peserta->save();
 
-        return  response(["message"=>"berhasil",201]);
+        return response(["message" => "berhasil", 201]);
     }
     /**
      * Store a newly created resource in storage.
@@ -50,7 +51,7 @@ class PesertaQuizController extends Controller
     public function store(Request $request)
     {
 
-        $idKuis = Quiz::where("kuis_code",$request->kode_kuis)->first();
+        $idKuis = Quiz::where("kuis_code", $request->kode_kuis)->first();
         $ids = $request->input("ids");
         $id_user = Auth::user()->id;
 
@@ -61,13 +62,14 @@ class PesertaQuizController extends Controller
                 "id_kuis" => $idKuis->id,
                 "id_user" => $id_user,
                 "kuis_code" => $request->kode_kuis,
-                'jawaban_kuis_cbt'=>"{}",
-                "jawaban_kuis_embed"=>"{}"
+                'jawaban_kuis_cbt' => "{}",
+                "jawaban_kuis_embed" => "{}"
             ];
         }
         pesertaQuiz::insert($peserta);
-        return response(["message"=>"berhasil",201]);
+        return response(["message" => "berhasil", 201]);
     }
+
 
     /**
      * Display the specified resource.
@@ -100,8 +102,8 @@ class PesertaQuizController extends Controller
     {
         $idsToRemove = $request->input("ids");
 
-        $peserta = pesertaQuiz::whereIn('id',$idsToRemove)->delete();
-        return response(["message"=>"berhasil"],200);
+        $peserta = pesertaQuiz::whereIn('id', $idsToRemove)->delete();
+        return response(["message" => "berhasil"], 200);
         // $peserta = pesertaQuiz::find($id);
         // if(!$peserta){
         //     return response()->json(['message' => 'Peserta not found'], 404);
@@ -110,13 +112,51 @@ class PesertaQuizController extends Controller
         // return response(["message"=>"Di hapus"],204);
     }
 
-    public function getResult($id,$kode_kuis){
-        $pesertaQuiz = pesertaQuiz::find($id)->where("kuis_code",$kode_kuis)->get()->first();
-        return response($pesertaQuiz,200);
-    }   
+    public function getResult($id, $kode_kuis)
+    {
+        $pesertaQuiz = pesertaQuiz::find($id)->where("kuis_code", $kode_kuis)->get()->first();
+        return response($pesertaQuiz, 200);
+    }
 
-    public function api_getHasilQuiz($kode_kuis){
-        $pesertaQuiz = pesertaQuiz::where("kuis_code",$kode_kuis)->get();
-        return response($pesertaQuiz,200);
+    public function api_getHasilQuiz($kode_kuis)
+    {
+        $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
+        return response($pesertaQuiz, 200);
+    }
+
+    public function api_addPesertaToQuiz($id, $quiz)
+    {
+        $idKuis = Quiz::where("kuis_code", $quiz)->first();
+        $ids = $id;
+        $id_user = Auth::user()->id;
+        $isExist = pesertaQuiz::where("id_kuis", $idKuis->id)->where("id_peserta", $ids)->exists();
+        if ($isExist) {
+            return response(["Message" => "Peserta sudah ditambahkan"], 301);
+        } else {
+            $peserta = new pesertaQuiz();
+            $peserta->id_peserta = $ids;
+            $peserta->id_kuis = $idKuis->id;
+            $peserta->id_user = $id_user;
+            $peserta->kuis_code = $quiz;
+            $peserta->jawaban_kuis_cbt = "{}";
+            $peserta->jawaban_kuis_embed = "{}";
+            $peserta->save();
+
+            return response(["message" => "berhasil", 201]);
+        }
+
+    }
+
+    public function api_delPesertaFromQuiz($id, $quiz)
+    {
+        $idKuis = Quiz::where("kuis_code", $quiz)->first();
+        $ids = $id;
+        $pesertaQuiz = pesertaQuiz::where("id_kuis", $idKuis->id)->where("id_peserta", $ids);
+        if ($pesertaQuiz->exists()) {
+            $pesertaQuiz->delete();
+            return response(["message"=>"Berhasil"],200);
+        } else {
+            return response(["Message" => "Peserta tidak ditemukan pada quiz ini"], 404);
+        }
     }
 }

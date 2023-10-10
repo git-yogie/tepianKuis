@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="{{ asset("mazer/extensions/sweetalert2/sweetalert2.min.css") }}">
+    <link rel="stylesheet" href="{{ asset('mazer/extensions/sweetalert2/sweetalert2.min.css') }}">
 @endsection
 
 @php
@@ -149,16 +149,16 @@
                     <div class="mx-2 mb-2">
                         <B>Api Key <i class="bi bi-clipboard"></i> </B>
                         <p class="border p-1 rounded-2" id="api_key">{{ Auth::user()->api_key }}</p>
-                        <button type="button" class="btn btn-primary" id="api_key_button"><i class="fa-solid fa-rotate"></i> Perbarui</button>
+                        <button type="button" class="btn btn-primary" id="api_key_button"><i
+                                class="fa-solid fa-rotate"></i> Perbarui</button>
                     </div>
                     <div class="mx-2" style="height: 40px!">
                         <B>End Point</B>
                         <p class="border p-1 rounded-2 " id="end_point">
-                            http://127.0.0.1:8000/api/{{ Auth::user()->api_key }}/embed/kuis/get/{kuis_id}</p>
+                            {{ url('/') }}/api/</p>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -174,15 +174,18 @@
                         <input type="hidden" id="id_user" value="{{ Auth::user()->id }}">
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama</label>
-                            <input type="text" class="form-control" value="{{ Auth::user()->nama }}" name="nama" id="nama" required aria-describedby="nama">
+                            <input type="text" class="form-control" value="{{ Auth::user()->nama }}" name="nama"
+                                id="nama" required aria-describedby="nama">
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputEmail1" class="form-label">Alamat Email</label>
-                            <input type="email" class="form-control" value="{{ Auth::user()->email }}" name="email" required id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <input type="email" class="form-control" value="{{ Auth::user()->email }}" name="email"
+                                required id="exampleInputEmail1" aria-describedby="emailHelp">
                         </div>
                         <div class="mb-3">
                             <label for="password_baru" class="form-label">Password Baru</label>
-                            <input type="text" class="form-control" id="password_baru" name="password_baru" aria-describedby="nama">
+                            <input type="text" class="form-control" id="password_baru" name="password_baru"
+                                aria-describedby="nama">
                             <div id="emailHelp" class="form-text">Isi password Baru jika ingin mengubah password</div>
                         </div>
                 </div>
@@ -200,7 +203,7 @@
 @section('js')
     <script src="{{ asset('mazer') }}/extensions/simple-datatables/umd/simple-datatables.js"></script>
     <script src="{{ asset('mazer') }}/js/pages/dashboard.js"></script>
-    <script src="{{ asset("mazer/extensions/sweetalert2/sweetalert2.min.js") }}"></script>
+    <script src="{{ asset('mazer/extensions/sweetalert2/sweetalert2.min.js') }}"></script>
     <script>
         var dataTgl = {!! '["' . $day1 . '","' . $day2 . '","' . $day3 . '"]' !!}
         var datacount = {!! '["' . $day1_count . '","' . $day2_count . '","' . $day3_count . '"]' !!}
@@ -235,6 +238,6 @@
         var ChartpermintaanAPI = new ApexCharts(document.querySelector("#chart-permintaan-api"), permintaanAPI);
         ChartpermintaanAPI.render();
     </script>
-    <script src="{{ asset("assets/js/dashboard.js") }}"></script>
-    
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+
 @endsection

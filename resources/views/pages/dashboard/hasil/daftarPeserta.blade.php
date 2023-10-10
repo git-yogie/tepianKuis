@@ -45,12 +45,12 @@
                             <td>
                                 @if ($peserta->jawaban_kuis_cbt != '{}')
                                     <a class="btn btn-info mb-2"
-                                        href="{{ route('hasil.daftar.peserta.hasil', [$peserta->kuis_code, $peserta->id]) }}"><i
+                                        href="{{ route('hasil.daftar.peserta.hasil', ["cbt",$peserta->kuis_code, $peserta->id]) }}"><i
                                             class="bi bi-file-text"></i>Jawaban CBT</button>
                                 @endif
                                 @if ($peserta->jawaban_kuis_embed != '{}')
                                     <a class="btn btn-info"
-                                        href="{{ route('hasil.daftar.peserta.hasil', [$peserta->kuis_code, $peserta->id]) }}"><i
+                                        href="{{ route('hasil.daftar.peserta.hasil', ["embed",$peserta->kuis_code, $peserta->id]) }}"><i
                                             class="bi bi-file-text"></i>Jawaban Embed</button>
                                 @endif
                             </td>

@@ -35,6 +35,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get("/dashboard/logout", "signOut")->name("dashboard.logout")->middleware('auth');
         Route::get("/dashboard/refreshtoken/{id}", "refreshToken")->name("dashboard.refreshtoken");
     });
+    
+Route::prefix('doc')->group(function () {
+    Route::get("/get-started",function(){ return view("documentation.get-started");})->name("doc.get-started");
+});
 
    
 
@@ -73,7 +77,7 @@ Route::middleware(['auth'])->group(function () {
     Route::controller(hasilController::class)->group(function () {
         Route::get('/hasil/', "daftarKuis")->name("hasil.daftar");
         Route::get('/hasil/{kode_kuis}', "daftarPesertaKuis")->name("hasil.daftar.peserta");
-        Route::get('/hasil/{kode_kuis}/peserta/{id_peserta}', "hasilPeserta")->name("hasil.daftar.peserta.hasil");
+        Route::get('/hasil/{type}/{kode_kuis}/peserta/{id_peserta}', "hasilPeserta")->name("hasil.daftar.peserta.hasil");
     });
 });
 Route::controller(QuizController::class)->group(function () {
@@ -111,4 +115,5 @@ Route::controller(CBTQuiz::class)->group(function () {
     Route::get("/cbt/peserta/unauthenticate/", "forgetPeserta")->name("cbt.unauth");
 
 });
+
 

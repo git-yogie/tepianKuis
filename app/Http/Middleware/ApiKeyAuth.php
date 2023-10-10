@@ -20,10 +20,14 @@ class ApiKeyAuth
         $apiKey = $request->header('X-Api-Key');
 
         if(!$apiKey){
-            return response()->json(["message"=>"Anda tidak terautentikasi!"]);
+            return response()->json(["message"=>"Anda tidak terautentikasi!"],401);
         }
+     
 
         $valid = User::where("api_key",$apiKey)->first();
+        if(!$valid){
+            return response()->json(["message"=>"API Key anda tidak terdaftar!"],401);
+        }
         $logs = new apiLog();
         $logs->Logs =  json_encode($request->header());
         $logs->id_user = $valid->id;
@@ -34,10 +38,7 @@ class ApiKeyAuth
 
         $request->attributes->add(["valid_user"=>$valid]);
 
-        if(!$valid){
-            return response()->json(["message"=>"API Key anda tidak terdaftar!"]);
-        }
-
+    
         return $next($request);
     }
 }

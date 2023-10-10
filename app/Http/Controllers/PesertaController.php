@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CraetePesertaRequest;
+use App\Http\Requests\EditPesertaRequest;
 use App\Models\Peserta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +15,8 @@ class PesertaController extends Controller
      */
     public function index()
     {
-        $peserta = Peserta::where("id_users",Auth::user()->id)->get()->makeHidden("id_users");
-        return response($peserta,200);
+        $peserta = Peserta::where("id_users", Auth::user()->id)->get()->makeHidden("id_users");
+        return response($peserta, 200);
     }
 
     /**
@@ -31,23 +33,25 @@ class PesertaController extends Controller
     public function store(Request $request)
     {
 
-        $request->validate([
-            "nama"=>"required",
-            "nis"=>"required | unique:pesertas,nis",
-            "email"=>"required |email| unique:pesertas,email",
-            "kelas"=>"required",
-        ],
-        [
-            
-            "nama.required"=>"nama tidak boleh kosong",
-            "nis.required"=>"nis tidak boleh kosong",
-            "email.required"=>"email tidak boleh kosong",
-            "email.email"=>"email tidak valid",
-            "kelas.required"=>"kelas tidak boleh kosong",
-            "nis.unique"=>"NISN ini sudah dimiliki oleh peserta lain.",
-            "email.unique"=>"email ini sudah dimiliki oleh peserta lain"
+        $request->validate(
+            [
+                "nama" => "required",
+                "nis" => "required | unique:pesertas,nis",
+                "email" => "required |email| unique:pesertas,email",
+                "kelas" => "required",
+            ],
+            [
 
-        ]);
+                "nama.required" => "nama tidak boleh kosong",
+                "nis.required" => "nis tidak boleh kosong",
+                "email.required" => "email tidak boleh kosong",
+                "email.email" => "email tidak valid",
+                "kelas.required" => "kelas tidak boleh kosong",
+                "nis.unique" => "NISN ini sudah dimiliki oleh peserta lain.",
+                "email.unique" => "email ini sudah dimiliki oleh peserta lain"
+
+            ]
+        );
 
         $peserta = new Peserta();
         $peserta->nama = $request->nama;
@@ -58,8 +62,8 @@ class PesertaController extends Controller
         $peserta->save();
 
 
-        return response(["message"=>"Data peserta berhasil ditambahkan!"],201);
-        
+        return response(["message" => "Data peserta berhasil ditambahkan!"], 201);
+
     }
 
     /**
@@ -71,7 +75,7 @@ class PesertaController extends Controller
         if (!$peserta) {
             return response()->json(['message' => 'Peserta not found'], 404);
         }
-        return response($peserta,200);
+        return response($peserta, 200);
     }
 
     /**
@@ -85,23 +89,25 @@ class PesertaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-    
-        $request->validate([
-            "nama"=>"required",
-            "nis"=>"required",
-            "email"=>"required | email ",
-            "kelas"=>"required",
-        ],
-        [
-            "nama.required"=>"nama tidak boleh kosong",
-            "nis.required"=>"nis tidak boleh kosong",
-            "email.required"=>"email tidak boleh kosong",
-            "email.email"=>"email tidak valid",
-            "kelas.required"=>"kelas tidak boleh kosong",
-            "unique" => "Email sudah ada pada peserta lainnya"
-        ]);
+
+        $request->validate(
+            [
+                "nama" => "required",
+                "nis" => "required",
+                "email" => "required | email ",
+                "kelas" => "required",
+            ],
+            [
+                "nama.required" => "nama tidak boleh kosong",
+                "nis.required" => "nis tidak boleh kosong",
+                "email.required" => "email tidak boleh kosong",
+                "email.email" => "email tidak valid",
+                "kelas.required" => "kelas tidak boleh kosong",
+                "unique" => "Email sudah ada pada peserta lainnya"
+            ]
+        );
 
         $peserta = Peserta::find($id);
         $peserta->nama = $request->nama;
@@ -110,7 +116,7 @@ class PesertaController extends Controller
         $peserta->kelas = $request->kelas;
         $peserta->save();
 
-        return response(["message"=>"di hapus"],200);
+        return response(["message" => "di hapus"], 200);
     }
 
     /**
@@ -123,14 +129,69 @@ class PesertaController extends Controller
             return response()->json(['message' => 'Peserta not found'], 404);
         }
         $peserta->delete();
-        return response(["message"=>"Di hapus"],204);
+        return response(["message" => "Di hapus"], 204);
     }
 
-    public function api_getPeserta(){
-        $peserta = Peserta::where("id_users", Auth::user())->get();
-        return response($peserta,200);
-    }
-    
+    public function api_getPeserta()
+    {
+        $peserta = Peserta::where("id_users", Auth::user()->id)
+            ->select("id", "nama", "nis", "email", "kelas", "created_at", "updated_at")
+            ->get();
 
-    
+        return response($peserta, 200);
+    }
+
+    public function api_createPeserta(CraetePesertaRequest $request)
+    {
+        // request musinclude
+        // nama , nis, email ,kelas
+        // dd($request);
+        // $request->validate();
+        // if($request->validated()){
+
+        // }else{
+        //     return response(["message" => "Failed"], 500);
+        // }
+        // try {
+        //     $peserta = new Peserta();
+        //     $peserta->nama = $request->nama;
+        //     $peserta->nis = $request->nis;
+        //     $peserta->email = $request->email;
+        //     $peserta->kelas = $request->kelas;
+        //     $peserta->id_users = Auth::user()->id;
+        //     $peserta->save();
+
+        //     return response(["message" => "Success"], 201);
+        // } catch (\Exception $e) {
+        //     return response(["message" => $e], 500);
+        // }
+
+
+    }
+
+    public function api_getPeserta_byId($id)
+    {
+        $peserta = Peserta::select("id", "nama", "nis", "email", "kelas", "created_at", "updated_at")->find($id);
+        if (!$peserta) {
+            return response()->json(['message' => 'Peserta not found'], 404);
+        }
+        return response($peserta, 200);
+    }
+    public function api_updatePeserta($id,EditPesertaRequest $request){
+
+        $peserta = Peserta::find($id);
+        if (!$peserta) {
+            return response()->json(['message' => 'Peserta not found'], 404);
+        }
+        $peserta->nama = $request->nama;
+        $peserta->nis = $request->nis;
+        $peserta->email = $request->email;
+        $peserta->kelas = $request->kelas;
+        $peserta->save();
+
+        return response(["message" => "Berhasil mengupdate"], 200);
+    }
+
+
+
 }
