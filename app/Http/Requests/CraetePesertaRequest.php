@@ -23,7 +23,7 @@ class CraetePesertaRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'error' => 'Validasi gagal',
+            'error' => 'konten anda tidak bisa diproses',
             'errors' => $validator->errors(),
         ], 422));
     }

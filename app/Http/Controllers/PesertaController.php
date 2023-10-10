@@ -145,26 +145,23 @@ class PesertaController extends Controller
     {
         // request musinclude
         // nama , nis, email ,kelas
-        // dd($request);
-        // $request->validate();
-        // if($request->validated()){
+        try {
+            $peserta = new Peserta();
+            
+            $peserta->nama = $request->nama;
+            $peserta->nis = $request->nis;
+            $peserta->email = $request->email;
+            $peserta->kelas = $request->kelas;
+            $peserta->id_users = Auth::user()->id;
+            $peserta->save();
 
-        // }else{
-        //     return response(["message" => "Failed"], 500);
-        // }
-        // try {
-        //     $peserta = new Peserta();
-        //     $peserta->nama = $request->nama;
-        //     $peserta->nis = $request->nis;
-        //     $peserta->email = $request->email;
-        //     $peserta->kelas = $request->kelas;
-        //     $peserta->id_users = Auth::user()->id;
-        //     $peserta->save();
-
-        //     return response(["message" => "Success"], 201);
-        // } catch (\Exception $e) {
-        //     return response(["message" => $e], 500);
-        // }
+            return response(["message" => "Success"], 201);
+        } catch (\Exception $e) {
+            return response(["message" => $e], 500);
+        }
+   
+     
+       
 
 
     }
