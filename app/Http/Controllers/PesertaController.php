@@ -155,15 +155,10 @@ class PesertaController extends Controller
             $peserta->id_users = Auth::user()->id;
             $peserta->save();
 
-            return response(["message" => "Success"], 201);
+            return response(["message" => "Success","id_peserta"=>$peserta], 201);
         } catch (\Exception $e) {
             return response(["message" => $e], 500);
         }
-   
-     
-       
-
-
     }
 
     public function api_getPeserta_byId($id)

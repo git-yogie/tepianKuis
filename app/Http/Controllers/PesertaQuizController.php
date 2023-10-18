@@ -121,11 +121,19 @@ class PesertaQuizController extends Controller
     public function api_getHasilQuiz($kode_kuis = null)
     {
         if ($kode_kuis = null) {
-            $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
-        } else {
-            $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
+            $pesertaQuiz = pesertaQuiz::with("peserta")
+            ->where("kuis_code", $kode_kuis)
+            ->where("id_user", Auth::user()->id);
+        }else{
+            $pesertaQuiz = pesertaQuiz::with("peserta")
+            ->where("id_user", Auth::user()->id);
         }
-        return response($pesertaQuiz, 200);
+
+        if($pesertaQuiz->count() > 0 ){
+            return response($pesertaQuiz->get(), 200);
+        }else{
+            return response(["message"=>"Tidak ditemukan"],400);
+        }
     }
 
     public function api_addPesertaToQuiz($id, $quiz)

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pesertaQuiz;
 use App\Models\Quiz;
+use App\Models\pesertaQuiz;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class hasilController extends Controller
 {
@@ -23,7 +24,10 @@ class hasilController extends Controller
     }
 
     public function hasilPeserta($type,$kode_kuis,$id_peserta){
-        $peserta_kuis = pesertaQuiz::with("peserta")->where("id",$id_peserta)->get()->first();
+        $peserta_kuis = pesertaQuiz::with("peserta")->
+        where("id",$id_peserta)
+        ->where("id_user",Auth::user()->id)
+        ->get()->first();
         $kuis = Quiz::with("soal")->where("kuis_code",$kode_kuis)->get()->first();
 
         if($type == "embed"){
