@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\adminController;
 use App\Http\Controllers\CBTQuiz;
 use App\Http\Controllers\hasilController;
 use App\Http\Controllers\QuizController;
@@ -96,10 +97,6 @@ Route::get("/Daftar", function () {
 
 
 // dashboard user
-
-
-
-
 Route::controller(CBTQuiz::class)->group(function () {
 
     Route::get("/cbt/hasil/{kode_kuis}/{id_peserta}", "hasil")->name("cbt.result");
@@ -114,6 +111,13 @@ Route::controller(CBTQuiz::class)->group(function () {
     Route::post("/cbt/authenticate", "authPeserta")->name("cbt.auth");
     Route::get("/cbt/peserta/unauthenticate/", "forgetPeserta")->name("cbt.unauth");
 
+});
+
+Route::controller(adminController::class)->group(function(){
+    Route::get("/admin/dashboard","index")->name("admin.dashboard");
+    
+    // Route::get("/admin/authenticate/{api_key}")->name("admin.authenticate"); 
+    // Route::get("/admin/logout","signOut")->name("admin.logout");
 });
 
 

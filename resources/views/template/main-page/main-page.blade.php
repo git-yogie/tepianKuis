@@ -14,9 +14,7 @@
     <link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css' rel='stylesheet' />
     @yield('css')
     <style>
-        .spanigen {
-            transition: opacity 0.5 ease-in-out;
-        }
+
     </style>
     @include('template.main-page.components.svg_file')
 </head>

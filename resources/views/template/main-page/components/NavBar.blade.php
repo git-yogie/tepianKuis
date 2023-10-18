@@ -10,16 +10,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Dokumentasi</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled">Tentang Kami</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route("landingPage") }}">Beranda</a>
                     </li>
                 </ul>
-                <button id="signIn" class="btn" data-bs-toggle="modal" data-bs-target="#masuk"><i
+                <button id="signIn" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#masuk"><i
                         class="fa-solid fa-right-to-bracket"></i></button>
                 <hr class="text-white-50">
             </div>

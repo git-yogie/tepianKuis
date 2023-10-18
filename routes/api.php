@@ -90,6 +90,7 @@ Route::middleware('quiz.api.auth')->group(function () {
     });
 
     Route::controller(PesertaQuizController::class)->group(function () {
+        Route::get("/tepian_quiz/peserta/hasil","api_getHasilQuiz");
         Route::get("/tepian_quiz/peserta/hasil/{quiz}", "api_getHasilQuiz");
         Route::get("/tepian_quiz/add/peserta/{id}/to/{quiz}", "api_addPesertaToQuiz");
         Route::get("/tepian_quiz/del/peserta/{id}/from/{quiz}", "api_delPesertaFromQuiz");

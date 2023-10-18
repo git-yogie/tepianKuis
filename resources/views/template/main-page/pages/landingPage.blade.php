@@ -16,9 +16,7 @@
                 <p class="lead mb-4">Tepian Kuis adalah Editor Kuis yang simple, fleksible dan mudah digunakan, yang
                     memudahkan anda membuat kuis atau evaluasi pada aplikasi media pembelajaran anda!</p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <a href="{{ route("daftar") }}" type="button" class="btn btn-primary btn-lg px-4 gap-3">Daftar</a>
-                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Github <i
-                            class="fa-brands fa-github"></i></button>
+                    <a href="{{ route("daftar") }}" type="button" class="btn btn-primary btn-lg px-4 gap-3">Mulai Sekarang</a>
                 </div>
             </div>
         </div>

@@ -17,8 +17,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('mazer') }}/images/logo/logo.svg" alt="Logo"
-                            srcset=""></a>
+                    <a href="index.html">  <img src="{{ asset("/images/tepianLogo.png") }}" alt="" class="img img-fluid" style="height:60px;"></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

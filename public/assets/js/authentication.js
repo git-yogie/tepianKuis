@@ -10,7 +10,6 @@ $(document).ready(function () {
         var formData = new FormData(this)
 
 
-        // axios api post
         axios.post("/api/authenticate", formData)
             .then(function (response) {
                 console.log(response.data);
@@ -30,7 +29,7 @@ $(document).ready(function () {
                 lazyLoader("#signInBtn", false, "Masuk", "Masuk");
                 if(error.response.status == "419" || error.response.status == 419){
                     showToast(toastContainer,"<b>Reload</b> :anda bisa login kembali setelah ini!. ")
-                    location.reload
+                    location.reloadv
                 }
             })
 

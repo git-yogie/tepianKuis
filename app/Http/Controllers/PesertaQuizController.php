@@ -118,9 +118,13 @@ class PesertaQuizController extends Controller
         return response($pesertaQuiz, 200);
     }
 
-    public function api_getHasilQuiz($kode_kuis)
+    public function api_getHasilQuiz($kode_kuis = null)
     {
-        $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
+        if ($kode_kuis = null) {
+            $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
+        } else {
+            $pesertaQuiz = pesertaQuiz::with("peserta")->where("kuis_code", $kode_kuis)->get();
+        }
         return response($pesertaQuiz, 200);
     }
 
@@ -154,7 +158,7 @@ class PesertaQuizController extends Controller
         $pesertaQuiz = pesertaQuiz::where("id_kuis", $idKuis->id)->where("id_peserta", $ids);
         if ($pesertaQuiz->exists()) {
             $pesertaQuiz->delete();
-            return response(["message"=>"Berhasil"],200);
+            return response(["message" => "Berhasil"], 200);
         } else {
             return response(["Message" => "Peserta tidak ditemukan pada quiz ini"], 404);
         }
