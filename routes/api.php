@@ -105,6 +105,7 @@ Route::middleware('quiz.api.auth')->group(function () {
         Route::post("tepian_quiz/add/peserta","api_createPeserta");
         Route::get("/tepian_quiz/show/peserta/{id}" , "api_getPeserta_byId");
         Route::post("/tepian_quiz/peserta/edit/{id}", "api_updatePeserta");
+        Route::delete("/tepian_quiz/peserta/destroy/{id}","api_destroyPeserta");
     });
 
 

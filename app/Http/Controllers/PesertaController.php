@@ -130,7 +130,7 @@ class PesertaController extends Controller
             return response()->json(['message' => 'Peserta not found'], 404);
         }
         $peserta->delete();
-        $pesertaQuiz = pesertaQuiz::where("id_peserta",$id)->delete();
+        $pesertaQuiz = pesertaQuiz::where("id_peserta", $id)->delete();
 
         return response(["message" => "Di hapus"], 204);
     }
@@ -144,13 +144,25 @@ class PesertaController extends Controller
         return response($peserta, 200);
     }
 
+    public function api_destroyPeserta($id)
+    {
+        $peserta = Peserta::find($id);
+        if (!$peserta) {
+            return response()->json(['message' => 'Peserta not found'], 404);
+        }
+        $peserta->delete();
+        $pesertaQuiz = pesertaQuiz::where("id_peserta", $id)->delete();
+
+        return response(["message" => "Di hapus"], 204);
+    }
+
     public function api_createPeserta(CraetePesertaRequest $request)
     {
         // request musinclude
         // nama , nis, email ,kelas
         try {
             $peserta = new Peserta();
-            
+
             $peserta->nama = $request->nama;
             $peserta->nis = $request->nis;
             $peserta->email = $request->email;
@@ -158,7 +170,7 @@ class PesertaController extends Controller
             $peserta->id_users = Auth::user()->id;
             $peserta->save();
 
-            return response(["message" => "Success","peserta"=>$peserta], 201);
+            return response(["message" => "Success", "peserta" => $peserta], 201);
         } catch (\Exception $e) {
             return response(["message" => $e], 500);
         }
@@ -172,7 +184,8 @@ class PesertaController extends Controller
         }
         return response($peserta, 200);
     }
-    public function api_updatePeserta($id,EditPesertaRequest $request){
+    public function api_updatePeserta($id, EditPesertaRequest $request)
+    {
 
         $peserta = Peserta::find($id);
         if (!$peserta) {
