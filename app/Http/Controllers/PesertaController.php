@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CraetePesertaRequest;
-use App\Http\Requests\EditPesertaRequest;
 use App\Models\Peserta;
+use App\Models\pesertaQuiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\EditPesertaRequest;
+use App\Http\Requests\CraetePesertaRequest;
 
 class PesertaController extends Controller
 {
@@ -129,6 +130,8 @@ class PesertaController extends Controller
             return response()->json(['message' => 'Peserta not found'], 404);
         }
         $peserta->delete();
+        $pesertaQuiz = pesertaQuiz::where("id_peserta",$id)->delete();
+
         return response(["message" => "Di hapus"], 204);
     }
 
@@ -155,7 +158,7 @@ class PesertaController extends Controller
             $peserta->id_users = Auth::user()->id;
             $peserta->save();
 
-            return response(["message" => "Success","id_peserta"=>$peserta], 201);
+            return response(["message" => "Success","peserta"=>$peserta], 201);
         } catch (\Exception $e) {
             return response(["message" => $e], 500);
         }
