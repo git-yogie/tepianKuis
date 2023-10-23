@@ -85,8 +85,7 @@ Route::middleware('quiz.api.auth')->group(function () {
     });
 
     Route::controller(hasilController::class)->group(function () {
-        Route::get("/tepian_quiz/hasil/{type}/{kode}", "hasilPeserta");
-        Route::get("/tepian_quiz/peserta/hasil/{type}/{kode}/{id_peserta}", "hasilPeserta");
+        Route::get("/tepian_quiz/hasil/{kode}", "api_daftarPesertaKuis");
     });
 
     Route::controller(PesertaQuizController::class)->group(function () {
