@@ -23,11 +23,19 @@ class hasilController extends Controller
         return view("pages.dashboard.hasil.daftarPeserta",compact("peserta_kuis"));
     }
 
-    public function hasilPeserta($type,$kode_kuis,$id_peserta){
-        $peserta_kuis = pesertaQuiz::with("peserta")->
-        where("id",$id_peserta)
-        ->where("id_user",Auth::user()->id)
-        ->get()->first();
+    public function hasilPeserta($type,$kode_kuis,$id_peserta = null){
+        if($id_peserta != null){
+            $peserta_kuis = pesertaQuiz::with("peserta")->
+            where("id",$id_peserta)
+            ->where("id_user",Auth::user()->id)
+            ->get()->first();
+        }else{
+            $peserta_kuis = pesertaQuiz::with("peserta")->
+            where("kuis_code",$kode_kuis)
+            ->where("id_user",Auth::user()->id)
+            ->get();
+        }
+     
         $kuis = Quiz::with("soal")->where("kuis_code",$kode_kuis)->get()->first();
 
         if($type == "embed"){
@@ -36,8 +44,7 @@ class hasilController extends Controller
             $hasil = json_decode($peserta_kuis->jawaban_kuis_cbt);
         }
         $soal = json_decode($kuis->soal);
-        // dd($hasil,$soal);
-        // dd($peserta_kuis,$kuis,$jawaban,$soal);
+
         return view("pages.dashboard.hasil.jawabanPeserta",compact(["peserta_kuis","kuis","hasil","soal"]));
 
     }

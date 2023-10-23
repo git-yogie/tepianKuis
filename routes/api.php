@@ -85,13 +85,13 @@ Route::middleware('quiz.api.auth')->group(function () {
     });
 
     Route::controller(hasilController::class)->group(function () {
-        // ok
-        Route::get("/quiz/peserta/{quiz}", "api_daftarPesertaKuis");
+        Route::get("/tepian_quiz/hasil/{type}/{kode}", "hasilPeserta");
+        Route::get("/tepian_quiz/peserta/hasil/{type}/{kode}/{id_peserta}", "hasilPeserta");
     });
 
     Route::controller(PesertaQuizController::class)->group(function () {
         Route::get("/tepian_quiz/peserta/hasil","api_getHasilQuiz");
-        Route::get("/tepian_quiz/peserta/hasil/{quiz}", "api_getHasilQuiz");
+        Route::get("/tepian_quiz/peserta/hasil/{type}/{quiz}", "api_getHasilQuiz");
         Route::get("/tepian_quiz/add/peserta/{id}/to/{quiz}", "api_addPesertaToQuiz");
         Route::get("/tepian_quiz/del/peserta/{id}/from/{quiz}", "api_delPesertaFromQuiz");
     });
