@@ -71,7 +71,7 @@
         <div class="card-body">
             <div class="text-center">
                 <h2>Hasil Kuis</h2>
-                <h4>Kuis Perangkat Lunak</h4>
+                <h4>{{ $quiz->nama }}</h4>
             </div>
             <div class="row">
                 <div class="col-md-6">

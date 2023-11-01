@@ -7,6 +7,7 @@ use App\Models\Peserta;
 use App\Models\pesertaQuiz;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
 
 class CBTQuiz extends Controller
 {
@@ -39,27 +40,36 @@ class CBTQuiz extends Controller
             ->where("nis", $request->input("nis"));
 
         $kuis = Quiz::where("kuis_code", $request->input("kode-kuis"));
+        $konfigurasi = Json_decode($kuis->first()->konfigurasi);
+        $waktu_mulai = Carbon::parse($konfigurasi->waktu_mulai);
+        $waktu_selesai = Carbon::parse($konfigurasi->waktu_berakhir);
+        $waktu_sekarang = Carbon::now();
+        if ($waktu_sekarang->greaterThan($waktu_selesai)) {
+            return redirect()->back()->with("error", "Waktu mengerjakan kuis sudah lewat!");
+        } else if (!$waktu_sekarang->between($waktu_mulai, $waktu_selesai)) {
+            return redirect()->back()->with("error", "Belum masuk waktu mengerjakan kuis!");
+        }
         if ($kuis->exists() && $peserta->exists()) {
             $peserta_kuis = pesertaQuiz::where("id_kuis", $kuis->first()->id)->where("id_peserta", $peserta->first()->id);
             if ($peserta_kuis->exists()) {
                 session([
                     "peserta_kuis" => [
-                        
+
                         "id" => $peserta->first()->id,
-                        "kode_kuis"=>$request->input("kode-kuis"),
-                        "id_peserta"=>$peserta_kuis->first()->id,
+                        "kode_kuis" => $request->input("kode-kuis"),
+                        "id_peserta" => $peserta_kuis->first()->id,
                         "nama" => $peserta->first()->nama,
                         "nis" => $peserta->first()->nis,
                         "email" => $peserta->first()->email,
                         "kelas" => $peserta->first()->kelas
                     ]
                 ]);
-                
+
                 return redirect()->route("cbt", $request->input("kode-kuis"));
             } else {
                 return redirect()->back()->with("error", "Email, nis atau kode kuis anda tidak terdaftar!");
             }
-        }else{
+        } else {
             return redirect()->back()->with("error", "Email, nis atau kode kuis anda tidak terdaftar!");
         }
 
@@ -67,17 +77,20 @@ class CBTQuiz extends Controller
 
     }
 
-    public function result($quiz,$peserta){ 
+    public function result($quiz, $peserta)
+    {
 
     }
 
-    public function forgetPeserta(){
+    public function forgetPeserta()
+    {
         session()->forget("peserta_kuis");
         return redirect()->route("cbt.login");
     }
 
-    public function saveQuiz(){
-        
+    public function saveQuiz()
+    {
+
     }
 
     // public function authenticate(Request $request){
@@ -90,16 +103,16 @@ class CBTQuiz extends Controller
     //     return $request
     // }
 
-    public function hasil($kode_kuis,$id_peserta)
+    public function hasil($kode_kuis, $id_peserta)
     {
         // if(Session::has("")){
 
         // }
-        $pesertaQuiz = pesertaQuiz::find($id_peserta)->where("kuis_code",$kode_kuis)->get()->first();
-        $quiz = Quiz::with("soal")->where("kuis_code",$kode_kuis)->get()->first();
+        $pesertaQuiz = pesertaQuiz::where("kuis_code", $kode_kuis)->find($id_peserta);
+        $quiz = Quiz::with("soal")->where("kuis_code", $kode_kuis)->get()->first();
         $parseResult = json_decode($pesertaQuiz->jawaban_kuis_cbt);
         $parseKonfigurasi = json_decode($quiz->konfigurasi);
-        return view("CBT.pages.hasilQuiz",compact(["quiz","parseResult","parseKonfigurasi"]));
+        return view("CBT.pages.hasilQuiz", compact(["quiz", "parseResult", "parseKonfigurasi"]));
 
     }
 

@@ -12,7 +12,7 @@ class hasilController extends Controller
     public function daftarKuis()
     {
 
-        $quiz = Quiz::withCount("peserta")->get();
+        $quiz = Quiz::withCount("peserta")->where("user_id",Auth::user()->id)->get();
 
         return view("pages.dashboard.hasil.hasil",compact("quiz"));
     }
