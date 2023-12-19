@@ -18,8 +18,7 @@ class EventEmitter {
 }
 
 
-
-class tepianKuis extends EventEmitter {
+class tepiancbt extends EventEmitter {
     saveAnsw = false;
 
     constructor(element, konfigurasi) {
@@ -37,7 +36,7 @@ class tepianKuis extends EventEmitter {
         if (this.element instanceof HTMLElement) {
 
             this.element.appendChild(this.loadCSSBootstrap());
-            this.element.appendChild(this.renderContainer());
+            this.element.appendChild(this.renderContainerWithNoSoal());
             this.element.appendChild(this.loadJsBootstrap());
             this.getData()
 
@@ -45,6 +44,7 @@ class tepianKuis extends EventEmitter {
 
         }
     }
+
 
     axiosInit() {
         this.apiClient = axios.create({
@@ -60,6 +60,8 @@ class tepianKuis extends EventEmitter {
         this.dataPeserta = data;
         return this
     }
+
+
     saveAnswer(save) {
         if (save && typeof this.dataPeserta != 'undefined') {
             this.saveAnsw = true;
@@ -151,34 +153,27 @@ class tepianKuis extends EventEmitter {
         tombolUlang.style = "margin: auto;"
 
 
-        let poin = 0;
-        let jumlahBenar = 0;
-        this.jawabanUser.forEach(element => {
+        const poin = this.jawabanUser.reduce((totalPoin, element) => {
             if (element.hasil) {
-                jumlahBenar++
-                poin += parseInt(element.data.poin, 10)
+                return totalPoin + parseInt(element.data.poin, 10);
             }
-        });
-        let jumlahPoin = 0;
-        this.soal_data.soal.forEach(element => {
-            jumlahPoin += parseInt(element.poin, 10)
-        })
+            return totalPoin;
+        }, 0);
 
-        let nilai_benar = ((jumlahBenar / this.soal_len) * 100)
-        let nilai_poin = ((poin / jumlahPoin) * 100)
-        this.finishedQuiz = {
+        const jumlahBenar = this.jawabanUser.filter(element => element.hasil).length;
+
+        const jumlahPoin = this.soal_data.soal.reduce((totalPoin, element) => totalPoin + parseInt(element.poin, 10), 0);
+
+        const nilai = ((jumlahBenar / this.soal_len) * 100).toFixed(1);
+        const nilai_poin = ((poin / jumlahPoin) * 100).toFixed(1);
+
+        const finishedQuiz = {
             jawaban: this.jawabanUser,
             poin: poin,
             benar: jumlahBenar,
-            nilai: ((jumlahBenar / this.soal_len) * 100).toFixed(1)
-
-        }
-        this.emit("selesai", {
-            jawaban: this.jawabanUser,
-            poin: poin,
-            benar: jumlahBenar,
-            nilai: nilai_poin % 1 === 0 ? nilai_poin.toFixed(0) : nilai_poin.toFixed(1),
-        });
+            nilai: nilai
+        };
+        this.emit("selesai", { jawaban: this.jawabanUser, poin: poin, benar: jumlahBenar, nilai_poin: nilai_poin });
 
         if (this.saveAnsw) {
             this.sendUserAnswer({
@@ -249,8 +244,13 @@ class tepianKuis extends EventEmitter {
                 const soal = data.soal
                 this.soal_len = soal.length;
 
-                this.soalText()
-                this.setSoal(data)
+                this.renderNoSoal();
+
+                this.soalText();
+                // this.setSoal(data)
+
+                this.setNoSoalActive();
+
 
                 this.prev.addEventListener("click", () => this.prevSoal());
                 this.prev.disabled = true;
@@ -264,6 +264,7 @@ class tepianKuis extends EventEmitter {
 
     soalText() {
         this.number.innerHTML = (this.index_soal + 1) + " / " + this.soal_len;
+        this.setNoSoalActive()
         this.setSoal()
     }
 
@@ -271,10 +272,10 @@ class tepianKuis extends EventEmitter {
         // console.log(this.soal_data);
         const soal_sekarang = this.soal_data.soal[this.index_soal]
         const soal = JSON.parse(soal_sekarang.soal_data)
-
         this.soal.innerHTML = soal.pertanyaan
 
         this.renderJawaban(soal_sekarang);
+        console.log(this.soal_data.soal);
     }
 
     renderJawaban(data) {
@@ -289,7 +290,6 @@ class tepianKuis extends EventEmitter {
             default:
                 break;
         }
-
     }
 
     loadCSSBootstrap() {
@@ -400,14 +400,12 @@ class tepianKuis extends EventEmitter {
                 const checkedRadioButton = [...document.querySelectorAll('input[name="' + data.id + '"]:checked')][0];
                 if (checkedRadioButton) {
                     var hasil = soal.pilihan.find(item => item.id === checkedRadioButton.id).benar;
-
-                    // var saved = jawabanUser.find(item => item.id === data.id);
                     var indexOfJawaban = this.jawabanUser.findIndex(item => item.id === data.id);
+
                     if (indexOfJawaban != -1) {
                         this.jawabanUser[indexOfJawaban].jawaban = checkedRadioButton.id;
                         this.jawabanUser[indexOfJawaban].hasil = hasil;
                     } else {
-                        console.log(hasil)
                         this.jawabanUser.push({
                             id: data.id,
                             data: { id: data.id, poin: data.poin },
@@ -416,6 +414,7 @@ class tepianKuis extends EventEmitter {
                             hasil: hasil
                         })
                     }
+                    console.log(this.jawabanUser)
                 }
                 break;
             case "isianSingkat":
@@ -520,7 +519,6 @@ class tepianKuis extends EventEmitter {
             }
 
             self.jawaban.appendChild(optionDiv);
-
             i++;
         });
 
@@ -565,4 +563,120 @@ class tepianKuis extends EventEmitter {
 
 
     }
+
+    renderContainerWithNoSoal() {
+        var container = document.createElement("div");
+        container.classList.add(["row"]);
+
+        var col1 = document.createElement("div");
+        col1.classList.add("col-md-8");
+
+        col1.appendChild(this.renderContainer());
+
+        var col2 = document.createElement("div");
+        col2.classList.add("col-md-4");
+        col2.appendChild(this.containerNoSoal());
+
+        container.appendChild(col1);
+        container.appendChild(col2);
+
+        return container;
+    }
+
+    renderNoSoal() {
+        this.containerNoSoal.innerHTML = "";
+        const soal = this.soal_data.soal;
+        const self = this;
+        soal.forEach(function(element, index) {
+            const numberBox = self.noSoalElement();
+            numberBox.textContent = index + 1;
+            numberBox.id = "no_" + element.id
+            numberBox.addEventListener("click", () => {
+                self.index_soal = index;
+                self.soalText();
+            })
+            self.containerNoSoal.appendChild(numberBox);
+        })
+    }
+
+    setNoSoalActive() {
+        const nodes = this.containerNoSoal.childNodes;
+        const curentSoal = this.soal_data.soal[this.index_soal]
+
+        console.log(nodes);
+        console.log(curentSoal.id);
+        let elementNumber = -1;
+        nodes.forEach(function(element, index) {
+            let id = element.id.split("_")[1];
+            if (curentSoal.id == id) {
+                elementNumber = element
+            }
+
+            if (element.classList.contains("border")) {
+                element.classList.remove("border", "border-primary")
+            }
+
+            if (!element.classList.contains("btn-outline-secondary")) {
+                element.classList.add("btn-outline-secondary")
+            }
+
+
+
+            console.log(element.classList)
+
+        });
+
+        if (elementNumber != -1) {
+            elementNumber.classList.remove("btn-outline-secondary");
+            elementNumber.classList.add("border", "border-primary");
+        }
+
+    }
+
+
+
+
+    noSoalElement() {
+        const numberBox = document.createElement("button");
+        numberBox.classList.add("btn", "btn-outlined-secondary", "col-auto", "m-1", "p-5", "");
+        numberBox.textContent = "1";
+
+        const span = document.createElement("span");
+        span.classList.add("badge", "text-bg-primary")
+        span.textContent = "sudah"
+
+        numberBox.appendChild(span);
+        return numberBox;
+    }
+
+    containerNoSoal() {
+        const card = document.createElement("div");
+        card.classList.add("card");
+
+        const cardHeader = document.createElement("div");
+        cardHeader.classList.add("card-header");
+        cardHeader.textContent = "Nomer Soal";
+
+        const cardBody = document.createElement("div");
+        cardBody.classList.add("card-body", "row");
+
+        // const numberBox = document.createElement("button");
+        // numberBox.classList.add("btn", "btn-outline-secondary", "col-auto", "m-2", "p-4");
+        // numberBox.textContent = "1";
+
+        // cardBody.appendChild(numberBox);
+
+        card.appendChild(cardHeader);
+        card.appendChild(cardBody);
+
+
+        this.containerNoSoal = cardBody;
+
+        return card
+
+    }
+
+
+
+
 }

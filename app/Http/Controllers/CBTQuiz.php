@@ -36,21 +36,30 @@ class CBTQuiz extends Controller
             'kode-kuis' => 'required|string',
         ]);
 
+
+
         $peserta = Peserta::where("email", $request->input("email"))
             ->where("nis", $request->input("nis"));
 
         $kuis = Quiz::where("kuis_code", $request->input("kode-kuis"));
-        $konfigurasi = Json_decode($kuis->first()->konfigurasi);
-        $waktu_mulai = Carbon::parse($konfigurasi->waktu_mulai);
-        $waktu_selesai = Carbon::parse($konfigurasi->waktu_berakhir);
-        $waktu_sekarang = Carbon::now();
-        if ($waktu_sekarang->greaterThan($waktu_selesai)) {
-            return redirect()->back()->with("error", "Waktu mengerjakan kuis sudah lewat!");
-        } else if (!$waktu_sekarang->between($waktu_mulai, $waktu_selesai)) {
-            return redirect()->back()->with("error", "Belum masuk waktu mengerjakan kuis!");
+
+        if ($kuis->first()->konfigurasi == null) {
+
+            $konfigurasi = Json_decode($kuis->first()->konfigurasi);
+            $waktu_mulai = Carbon::parse($konfigurasi->waktu_mulai);
+            $waktu_selesai = Carbon::parse($konfigurasi->waktu_berakhir);
+
+
+            $waktu_sekarang = Carbon::now();
+            if ($waktu_sekarang->greaterThan($waktu_selesai)) {
+                return redirect()->back()->with("error", "Waktu mengerjakan kuis sudah lewat!");
+            } else if (!$waktu_sekarang->between($waktu_mulai, $waktu_selesai)) {
+                return redirect()->back()->with("error", "Belum masuk waktu mengerjakan kuis!");
+            }
         }
         if ($kuis->exists() && $peserta->exists()) {
             $peserta_kuis = pesertaQuiz::where("id_kuis", $kuis->first()->id)->where("id_peserta", $peserta->first()->id);
+
             if ($peserta_kuis->exists()) {
                 session([
                     "peserta_kuis" => [
@@ -72,14 +81,10 @@ class CBTQuiz extends Controller
         } else {
             return redirect()->back()->with("error", "Email, nis atau kode kuis anda tidak terdaftar!");
         }
-
-
-
     }
 
     public function result($quiz, $peserta)
     {
-
     }
 
     public function forgetPeserta()
@@ -90,7 +95,6 @@ class CBTQuiz extends Controller
 
     public function saveQuiz()
     {
-
     }
 
     // public function authenticate(Request $request){
@@ -113,7 +117,6 @@ class CBTQuiz extends Controller
         $parseResult = json_decode($pesertaQuiz->jawaban_kuis_cbt);
         $parseKonfigurasi = json_decode($quiz->konfigurasi);
         return view("CBT.pages.hasilQuiz", compact(["quiz", "parseResult", "parseKonfigurasi"]));
-
     }
 
     /**

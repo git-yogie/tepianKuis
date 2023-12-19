@@ -19,7 +19,7 @@
                 <div class="">
                     <button class="btn btn-sm btn-primary" onclick="renderToJson()"><i class="fa-solid fa-rotate"></i>
                         Simpan</button>
-                    <button class="btn btn-sm btn-primary d-inline" onclick="nextQuestion()" > Soal Selanjutnya <i
+                    <button class="btn btn-sm btn-primary d-inline" onclick="nextQuestion()" > Soal Baru <i
                             class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>

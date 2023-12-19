@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\adminApiResource;
 use App\Http\Controllers\PesertaController;
 use App\Http\Controllers\PesertaQuizController;
 use App\Http\Controllers\quizApi;
@@ -61,7 +62,6 @@ Route::group(['middleware' => ['web']], function () {
         Route::get("/soal/{id_kuis}", "index")->name("allSoal");
         Route::get("/soal/show/{id}", "show")->name("getSoal");
         Route::delete("/soal/delete/{id}", "destroy")->name("deleteSoal");
-
     });
 
     Route::controller(PesertaQuizController::class)->group(function () {
@@ -70,12 +70,35 @@ Route::group(['middleware' => ['web']], function () {
         Route::post("/quiz/delete/peserta", "destroy")->name("quiz.delete");
         Route::post("/quiz/save/jawaban/{peserta_id}", "savePesertaAnswer")->name("quiz.simpan");
         Route::get("/quiz/peserta/result/{kode_kuis}/{peserta_id}", "getResult")->name("quiz.peserta.result");
+    });
 
+    Route::middleware("admin.auth")->group(function () {
+        Route::controller(adminApiResource::class)->group(function () {
+            Route::get("/admin/api/threeday", "getThreeDayLog")->name("admin.api.threeday");
+
+            // user function
+            Route::get("/admin/api/user", "getUser")->name("admin.api.user");
+            Route::post("/admin/api/user/add", "addUser")->name("admin.api.user.add");
+            Route::get("/admin/api/user/{id}", "getUserById")->name("admin.api.user.id");
+            Route::post("/admin/api/user/edit/{id}", "userUpdate")->name("admin.api.user.edit");
+            Route::delete("/admin/api/user/delete/{id}", "userDestroy")->name("admin.api.user.delete");
+            Route::get("/admin/api/user/login/{id}", "userLogin")->name("admin.api.user.login");
+            // user end
+
+
+
+
+
+
+            // Route::get("/admin/api/user/{id}","getUserById")->name("admin.api.user.id");
+            // Route::post("/admin/api/user/edit/{id}","editUser")->name("admin.api.user.edit");
+            // Route::delete("/admin/api/user/delete/{id}","deleteUser")->name("admin.api.user.delete");
+        });
     });
 });
 
 
-// cara akses middleware 
+// cara akses middleware
 // sertakan X-Api-Key dengan value api key user
 // pada header XHR saat melakukan request api..!
 Route::middleware('quiz.api.auth')->group(function () {
@@ -89,24 +112,21 @@ Route::middleware('quiz.api.auth')->group(function () {
     });
 
     Route::controller(PesertaQuizController::class)->group(function () {
-        Route::get("/tepian_quiz/peserta/hasil","api_getHasilQuiz");
+        Route::get("/tepian_quiz/peserta/hasil", "api_getHasilQuiz");
         Route::get("/tepian_quiz/peserta/hasil/{type}/{quiz}", "api_getHasilQuiz");
         Route::get("/tepian_quiz/add/peserta/{id}/to/{quiz}", "api_addPesertaToQuiz");
         Route::get("/tepian_quiz/del/peserta/{id}/from/{quiz}", "api_delPesertaFromQuiz");
     });
-    
+
     Route::controller(SoalController::class)->group(function () {
         // Route::get("quiz/soal/get/{kode_kuis}", "api_getHasilQuiz");
     });
 
     Route::controller(PesertaController::class)->group(function () {
         Route::get("/tepian_quiz/get/peserta", "api_getPeserta");
-        Route::post("tepian_quiz/add/peserta","api_createPeserta");
-        Route::get("/tepian_quiz/show/peserta/{id}" , "api_getPeserta_byId");
+        Route::post("tepian_quiz/add/peserta", "api_createPeserta");
+        Route::get("/tepian_quiz/show/peserta/{id}", "api_getPeserta_byId");
         Route::post("/tepian_quiz/peserta/edit/{id}", "api_updatePeserta");
-        Route::delete("/tepian_quiz/peserta/destroy/{id}","api_destroyPeserta");
+        Route::delete("/tepian_quiz/peserta/destroy/{id}", "api_destroyPeserta");
     });
-
-
-
 });

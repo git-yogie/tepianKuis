@@ -7,6 +7,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
+use App\Http\Controllers\admin\auth_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,7 @@ use App\Http\Controllers\dashboard;
 */
 
 /*
-|Aturan penamaan Route 
+|Aturan penamaan Route
 |------------------------------------------------------------------------------
 |{pastikan bahwa route seperti dashboard/profil di beri nama dashboard.profile}
 |penggunaan tanda titik mempengaruhi pengaktifan menu.
@@ -32,19 +33,21 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::controller(userController::class)->group(function () {
-        Route::post("/dashboard/profile/update/","updateUser")->name("dashboard.profile.update");
+        Route::post("/dashboard/profile/update/", "updateUser")->name("dashboard.profile.update");
         Route::get("/dashboard/logout", "signOut")->name("dashboard.logout")->middleware('auth');
         Route::get("/dashboard/refreshtoken/{id}", "refreshToken")->name("dashboard.refreshtoken");
     });
-    
-Route::prefix('doc')->group(function () {
-    Route::get("/get-started",function(){ return view("documentation.get-started");})->name("doc.get-started");
-});
 
-   
+    Route::prefix('doc')->group(function () {
+        Route::get("/get-started", function () {
+            return view("documentation.get-started");
+        })->name("doc.get-started");
+    });
+
+
 
     // dashboard -> pustaka kuis
-// ------------------------------ dev Area ------------------------------------
+    // ------------------------------ dev Area ------------------------------------
     Route::get("kuis/pustaka", function () {
 
         return view("pages.dashboard.pustaka");
@@ -56,7 +59,7 @@ Route::prefix('doc')->group(function () {
     // end dashboard route
 
     Route::get("/pustaka/kuis/{idKuis}", [QuizController::class, 'quizPage'])->name("pustaka.kuis");
-  
+
 
     Route::get("/pustaka/kuis/editor/{jenis}/{idkuis}", [QuizController::class, 'quizEditor'])->name("pustaka.kuis.editor");
     Route::get("/pustaka/kuis/editor/edit/{jenis}/{idkuis}/{id_soal}", [QuizController::class, 'quizEditor'])->name("pustaka.kuis.editor.edit");
@@ -68,7 +71,6 @@ Route::prefix('doc')->group(function () {
         } else {
             return view("template.quiz_template.form");
         }
-
     })->name("pustaka.kuis.preview");
 
 
@@ -83,7 +85,7 @@ Route::prefix('doc')->group(function () {
 });
 Route::controller(QuizController::class)->group(function () {
     Route::post("/quiz/banner/upload", "bannerHandler")->name("banner_upload");
-    Route::get("/pustaka/kuis/soal/download/{idKuis}","dowhloadQuiz")->name("quiz.download");
+    Route::get("/pustaka/kuis/soal/download/{idKuis}", "dowhloadQuiz")->name("quiz.download");
 });
 // end midlleware group
 
@@ -110,14 +112,21 @@ Route::controller(CBTQuiz::class)->group(function () {
     // route untuk autentikasi user;
     Route::post("/cbt/authenticate", "authPeserta")->name("cbt.auth");
     Route::get("/cbt/peserta/unauthenticate/", "forgetPeserta")->name("cbt.unauth");
-
-});
-
-Route::controller(adminController::class)->group(function(){
-    Route::get("/admin/dashboard","index")->name("admin.dashboard");
-    
-    // Route::get("/admin/authenticate/{api_key}")->name("admin.authenticate"); 
-    // Route::get("/admin/logout","signOut")->name("admin.logout");
 });
 
 
+Route::get("admin/login", [auth_controller::class, "index"])->name("admin.login");
+Route::post("admin/authenticate", [auth_controller::class, "authenticate"])->name("admin.auth");
+
+
+
+Route::middleware(["admin.auth"])->group(function () {
+    Route::controller(adminController::class)->group(function () {
+        Route::get("/admin/dashboard", "index")->name("admin.dashboard");
+        Route::get("/admin/user", "user")->name("admin.user");
+        Route::get("/admin/log", "log")->name("admin.log");
+        // Route::get("/admin/authenticate/{api_key}")->name("admin.authenticate");
+        // Route::get("/admin/logout","signOut")->name("admin.logout");
+        Route::get("/admin/logout", [auth_controller::class, "signOut"])->name("admin.logout");
+    });
+});

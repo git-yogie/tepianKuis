@@ -101,22 +101,22 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
-        var signIn = document.getElementById("signIn");
-        signIn.addEventListener("mouseenter", function() {
-            signIn.classList.add("btn-primary");
-            var childElement = document.createElement("span")
-            childElement.classList.add("mx-1")
-            childElement.classList.add("spanigen")
-            childElement.textContent = "Masuk";
-            signIn.appendChild(childElement);
+        // var signIn = document.getElementById("signIn");
+        // signIn.addEventListener("mouseenter", function() {
+        //     signIn.classList.add("btn-primary");
+        //     var childElement = document.createElement("span")
+        //     childElement.classList.add("mx-1")
+        //     childElement.classList.add("spanigen")
+        //     childElement.textContent = "Masuk";
+        //     signIn.appendChild(childElement);
 
-        });
-        signIn.addEventListener("mouseleave", function() {
-            signIn.classList.remove("btn-primary");
-            var childElement = signIn.querySelector("span");
-            if (childElement) {
-                signIn.removeChild(childElement);
-            }
-        })
+        // });
+        // signIn.addEventListener("mouseleave", function() {
+        //     signIn.classList.remove("btn-primary");
+        //     var childElement = signIn.querySelector("span");
+        //     if (childElement) {
+        //         signIn.removeChild(childElement);
+        //     }
+        // })
     </script>
 @endsection

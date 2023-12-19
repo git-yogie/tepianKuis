@@ -1,4 +1,4 @@
-<footer style="bottom: 5px">
+<footer style="position: absolut; bottom: 5px;">
     <div class="footer clearfix mb-0 text-muted">
         <div class="float-start">
             <p>2023 &copy; yogieDesk</p>

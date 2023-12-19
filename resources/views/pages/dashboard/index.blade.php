@@ -10,19 +10,19 @@
 @endsection
 
 @php
-    
+
     // data hari pertama
     $day1 = $data['jumlah_request_per_hari'][0][0];
     $day1_count = $data['jumlah_request_per_hari'][0][1];
-    
+
     // data hari kedua
     $day2 = $data['jumlah_request_per_hari'][1][0];
     $day2_count = $data['jumlah_request_per_hari'][1][1];
-    
+
     // data hari ke tiga
     $day3 = $data['jumlah_request_per_hari'][2][0];
     $day3_count = $data['jumlah_request_per_hari'][2][1];
-    
+
 @endphp
 
 @section('page-heading', 'Dashboard User')

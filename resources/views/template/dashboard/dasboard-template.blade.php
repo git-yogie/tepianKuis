@@ -26,7 +26,7 @@
 {{-- include sidebar --}}
         @include("template.dashboard.components.sidebar")
 {{-- include Sidebar --}}
-        <div id="main">
+        <div id="main" class="d-flex flex-column" style="min-height: 100vh;">
             <header class="mb-3">
                 <a href="#" class="burger-btn d-block d-xl-none">
                     <i class="bi bi-justify fs-3"></i>
@@ -36,11 +36,11 @@
             <div class="page-heading">
                 <h3>@yield("page-heading")</h3>
             </div>
-            <div class="page-content">
-               @yield("main")
+            <div class="page-content flex-grow-1">
+                @yield("main")
             </div>
 
-           @include("template.dashboard.components.footer")
+            @include("template.dashboard.components.footer")
         </div>
     </div>
     <script src="{{ asset('mazer') }}/js/bootstrap.js"></script>

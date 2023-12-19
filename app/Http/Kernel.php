@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         "check.peserta"=> \App\Http\Middleware\CheckCBTLogin::class,
-        "quiz.api.auth"=>\App\Http\Middleware\ApiKeyAuth::class
+        "quiz.api.auth"=>\App\Http\Middleware\ApiKeyAuth::class,
+        "admin.auth"=>\App\Http\Middleware\AdminAuth::class,
     ];
 }

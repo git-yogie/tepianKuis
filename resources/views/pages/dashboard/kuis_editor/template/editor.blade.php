@@ -37,7 +37,7 @@
             </div> --}}
 
         @endif
-      
+
     </nav>
 
 
@@ -46,10 +46,7 @@
     {{-- <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('mazer/extensions/toastify-js/src/toastify.js') }}"></script>
-
     
-
-
     @yield("js")
 
 </body>

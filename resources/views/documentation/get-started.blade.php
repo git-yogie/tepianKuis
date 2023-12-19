@@ -284,7 +284,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            
+
                                                 <code class="language-javascript code" style="white-space: pre;">
 [
     {
@@ -308,7 +308,7 @@
                             <code class="language-javascript code" style="white-space: pre;">
 const apiUrl = '{{ url('/') . '/api/tepian_quiz/get/peserta' }}';
 const apiToken = '{{ Auth::user()->api_key }}';
-        
+
 const xhr = new XMLHttpRequest();
 xhr.open('GET', apiUrl, true);
 xhr.setRequestHeader('X-Api-Key', apiToken);
@@ -358,7 +358,7 @@ xhr.send();
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            
+
                                                 <code class="language-javascript code" style="white-space: pre;">
 [
     {
@@ -417,7 +417,7 @@ xhr.send(jsonData);
 
                         </div>
                     </div>
-                  
+
 
                     <h5>3. Endpoint <code>/get/peserta/{id}</code></h5>
                     <div class="row">
@@ -451,7 +451,7 @@ xhr.send(jsonData);
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            
+
                                                 <code class="language-javascript code" style="white-space: pre;">
 {
     "id": 1,
@@ -474,19 +474,19 @@ xhr.send(jsonData);
 var idPeserta = 1
 const apiUrl = '{{ url('/') . '/api/tepian_quiz/get/peserta/' }}'+ idPeserta;
 const apiToken = '{{ Auth::user()->api_key }}';
-        
-        
+
+
 var xhr = new XMLHttpRequest();
 xhr.open('POST', apiUrl, true);
 xhr.setRequestHeader('X-Api-Key', apiToken);
-        
+
 xhr.onreadystatechange = function () {
     if (xhr.readyState === 4 && xhr.status === 200) {
         var response = JSON.parse(xhr.responseText);
         console.log(response);
     }
 };
-        
+
 xhr.send(jsonData);
                             </code>
                         </div>
@@ -528,7 +528,7 @@ xhr.send(jsonData);
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    
+
                                         <code class="language-javascript code" style="white-space: pre;">
 {
      "message": "Berhasil mengupdate"
@@ -543,7 +543,7 @@ xhr.send(jsonData);
                     <h6>Edit Peserta</h6>
                     <code class="language-javascript code" style="white-space: pre;">
 
-var idPeserta = 1   
+var idPeserta = 1
 const apiUrl = '{{ url('/') . '/api/tepian_quiz/peserta/edit/' }}'+idPeserta;
 const apiToken = '{{ Auth::user()->api_key }}';
 
@@ -580,23 +580,8 @@ xhr.send(jsonData);
                     </code>
 
                 </div>
-            </div>          
-          
-
-
-
-
-
-
-
-
+            </div>
         </div>
-
-
-    </div>
-        </div>
-    </div>
-    </div>
     </div>
 
 @endsection

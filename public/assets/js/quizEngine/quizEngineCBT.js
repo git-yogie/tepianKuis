@@ -69,6 +69,12 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
         if (poin !== 0) {
             persentase = (poin / jumlahPoin) * 100;
+            // bila persentasi memiliki desimal 0
+            if (persentase % 1 === 0) {
+                persentase = persentase.toFixed(0);
+            }else{
+                persentase = persentase.toFixed(2);
+            }
         }
 
 
@@ -79,7 +85,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
         const now = new Date();
         const startTimeStamp = new Date(start_time);
 
-        const waktu_mengerjakan = now.getTime() - startTimeStamp.getTime();  
+        const waktu_mengerjakan = now.getTime() - startTimeStamp.getTime();
 
         var hasil = {
             jumlahBenar: jumlahBenar,
@@ -90,11 +96,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
             waktu_mengerjakan: waktu_mengerjakan,
         }
 
-        console.log(hasil)
         localStorage.removeItem("end_time_" + url[url.length - 1]);
         localStorage.removeItem("start_time_" + url[url.length - 1]);
         localStorage.removeItem("jawaban_user_" + url[url.length - 1]);
-        // axios.post(baseUrl + `quiz/save/jawaban/${kode_kuis}/${id}`,
+
+
         var send = JSON.stringify(hasil);
         console.log(send);
         axios.post(`${baseUrl}quiz/save/jawaban/${id}`,{"result":send})
@@ -123,8 +129,11 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     if(quiz_data.konfigurasi != "{}"){
                         var konfigurasi = JSON.parse(quiz_data.konfigurasi);
                         startCountdownTimer(konfigurasi.waktu);
+                    }else{
+                        if(localStorage.getItem("start_time_" + url[url.length - 1]) == null){
+                            localStorage.setItem("start_time_" + url[url.length - 1], new Date());
+                        }
                     }
-                    
                 })
                 .catch((error) => {
 
@@ -274,6 +283,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
         renderJawaban(data);
     }
+
     function nextSoal(data) {
         const targetId = "soal_" + (index_soal) + "_" + data.id;
         var soal = JSON.parse(data.soal_data)
@@ -318,9 +328,10 @@ document.addEventListener("DOMContentLoaded", (e) => {
         var i = 0;
         pilihan.forEach(function (option) {
             var optionDiv = document.createElement('div');
-            optionDiv.classList.add('col-md-12', 'form-check', 'd-flex', 'align-items-center', 'border');
+            // optionDiv.classList.add('col-md-12', 'form-check', 'd-flex', 'align-items-center', 'border');
+            optionDiv.classList.add('form-check', 'd-flex', 'align-items-baseline', 'border', "p-3", "outer", "rounded-4", "m-1");
 
-            var radioInput = document.createElement('input');
+            var radioInput = document.createElement('input');2
             var divClear = document.createElement("div");
             var soal = document.createElement("p")
 
@@ -400,6 +411,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     var indexOfJawaban = jawabanUser.findIndex(item => item.id === data.id);
                     if (indexOfJawaban != -1) {
                         jawabanUser[indexOfJawaban].jawaban = checkedRadioButton.id;
+                        jawabanUser[indexOfJawaban].hasil = hasil;
                     } else {
                         jawabanUser.push({
                             id: data.id,
@@ -407,7 +419,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
                             soal: soal,
                             jawaban: checkedRadioButton.id,
                             hasil: hasil
-                        })
+                        });
                         localStorage.setItem("jawaban_user_" + url[url.length - 1], JSON.stringify(jawabanUser));
                     }
                 }

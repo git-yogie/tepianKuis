@@ -13,8 +13,8 @@
                         <a class="nav-link active" aria-current="page" href="{{ route("landingPage") }}">Beranda</a>
                     </li>
                 </ul>
-                <button id="signIn" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#masuk"><i
-                        class="fa-solid fa-right-to-bracket"></i></button>
+                <button id="signIn" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#masuk"><i
+                        class="fa-solid fa-right-to-bracket"></i> Masuk</button>
                 <hr class="text-white-50">
             </div>
         </div>

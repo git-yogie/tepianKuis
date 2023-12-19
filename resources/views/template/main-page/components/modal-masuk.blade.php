@@ -21,7 +21,7 @@ id="masuk">
                     <label for="floatingPassword">Password</label>
                 </div>
                 <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" id="signInBtn" type="submit">Masuk</button>
-                <div class="text-muted">Belum Punya akun? <a href="#">Daftar Sekarang!</a></div>
+                <div class="text-muted">Belum Punya akun? <a href="{{ route("daftar") }}">Daftar Sekarang!</a></div>
             </form>
         </div>
     </div>
