@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    @include('template.main-page.components.themeButton')
+    {{-- @include('template.main-page.components.themeButton') --}}
     @include('template.main-page.components.NavBar')
 
     @yield('main')
@@ -35,11 +35,11 @@
         </div>
 
         <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-            <a href="" class="btn btn-outline-secondary mx-1" data-bs-toggle="tooltip" data-bs-placement="top"
+            <a href="https://github.com/git-yogie" class="btn btn-outline-secondary mx-1" data-bs-toggle="tooltip" data-bs-placement="top"
                 data-bs-title="git-yogie"><i class="fa-brands fa-github"></i></a>
-            <a href="" class="btn btn-outline-secondary mx-1" data-bs-toggle="tooltip"
+            <a href="https://www.instagram.com/yogie_desk/" class="btn btn-outline-secondary mx-1" data-bs-toggle="tooltip"
                 data-bs-title="@yogie_desk"><i class="fa-brands fa-instagram"></i></a>
-            <a href="" class="btn btn-outline-secondary mx-1"><i class="fa-brands fa-linkedin-in"></i></a>
+            {{-- <a href="" class="btn btn-outline-secondary mx-1"><i class="fa-brands fa-linkedin-in"></i></a> --}}
         </ul>
     </footer>
 
@@ -47,7 +47,7 @@
     @include('template.main-page.components.modal-masuk')
 
     {{-- here,s end --}}
-   
+
     {{-- js Library --}}
     <script src="{{ asset('assets/module/jquery/jquery.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

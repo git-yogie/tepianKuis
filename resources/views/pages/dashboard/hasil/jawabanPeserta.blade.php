@@ -9,24 +9,24 @@
 @section('page-heading', 'Hasil Kuis')
 
 @php
-    
+
     // dd($hasil,$soal);
     $inputMilidetik = $hasil->waktu_mengerjakan; // Contoh input dalam milidetik (620000 milidetik = 10 menit 20 detik)
-    
+
     // Menghitung menit dan detik
     $menit = floor($inputMilidetik / 60000); // 1 menit = 60000 milidetik
     $sisaMilidetik = $inputMilidetik % 60000;
     $detik = $sisaMilidetik / 1000; // 1 detik = 1000 milidetik
-    
+
     // Format hasil
     $waktuFormat = sprintf('%d menit %d detik', $menit, $detik);
-    
+
     // dd($parseKonfigurasi);
-    
+
     // Menampilkan waktu
-    
+
     // dd($soal, $kuis);
-    
+
 @endphp
 @include('pages.dashboard.hasil.blade_helper.model_soal')
 @section('main')
@@ -36,20 +36,20 @@
             <h3>Jawaban Peserta</h3>
             @php $no = 0 @endphp
             @foreach ($soal as $soal)
+
                 @foreach ($hasil->jawaban_user as $jawaban)
                     @if ($soal->id == $jawaban->id)
                         @switch($soal->jenis_soal)
                             @case('pilihanGanda')
                                 @php echo pilihanGanda($no+=1, $soal, $jawaban) @endphp
                             @break
-
                             @case('isianSingkat')
                                 @php echo isianSingkat($no+=1, $soal, $jawaban) @endphp
                             @break
 
                             @default
                         @endswitch
-                    @break
+
                     @endif
             @endforeach
         @endforeach
@@ -64,7 +64,7 @@
                             <span class="badge rounded-pill text-bg-danger">Salah</span>
                         </div>
                     </div>
-                  
+
                 </div>
                 <div class="card-body">
                     <div class="mb-4">
@@ -104,7 +104,7 @@
                             <span class="badge rounded-pill text-bg-danger">Benar</span>
                         </div>
                     </div>
-                  
+
                 </div>
                 <div class="card-body">
                     <div class="mb-4">

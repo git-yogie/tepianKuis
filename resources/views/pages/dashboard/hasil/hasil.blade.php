@@ -16,36 +16,38 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-striped" id="table-data-hasil">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama Kuis</th>
-                        <th>Tingkat</th>
-                        <th>Mata Pelajaran</th>
-                        <th>Jumlah Peserta</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                   @php
-                       $no = 0;
-                   @endphp
-                    @foreach ($quiz as $quizs)
+            <div class="table-responsive">
+                <table class="table table-striped" id="table-data-hasil">
+                    <thead>
                         <tr>
-                            <td>{{ $no+=1 }}</td>
-                            <td>{{ $quizs->nama }}</td>
-                            <td>{{ $quizs->tingkatan }}</td>
-                            <td>{{ $quizs->mata_pelajaran }}</td>
-                            <td>{{ $quizs->peserta_count }}</td>
-                            <td>
-                                <a class="btn btn-info" href=" {{ route("hasil.daftar.peserta",$quizs->kuis_code) }}"><i class="bi bi-file-text"></i> Lihat Hasil</button>
-                            </td>
+                            <th>No</th>
+                            <th>Nama Kuis</th>
+                            <th>Tingkat</th>
+                            <th>Mata Pelajaran</th>
+                            <th>Jumlah Peserta</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    <tbody>
+                       @php
+                           $no = 0;
+                       @endphp
+                        @foreach ($quiz as $quizs)
+                            <tr>
+                                <td>{{ $no+=1 }}</td>
+                                <td>{{ $quizs->nama }}</td>
+                                <td>{{ $quizs->tingkatan }}</td>
+                                <td>{{ $quizs->mata_pelajaran }}</td>
+                                <td>{{ $quizs->peserta_count }}</td>
+                                <td>
+                                    <a class="btn btn-info" href=" {{ route("hasil.daftar.peserta",$quizs->kuis_code) }}"><i class="bi bi-file-text"></i> Lihat Hasil</button>
+                                </td>
+                            </tr>
+                        @endforeach
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

@@ -354,6 +354,7 @@
         document.querySelectorAll('pre code').forEach((block) => {
             hljs.highlightBlock(block);
         });
+        
         const jumlahSoal = document.getElementById("jumlahSoal");
         const deletePrompt = Swal.mixin({
             customClass: {

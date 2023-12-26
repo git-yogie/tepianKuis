@@ -171,4 +171,8 @@ class PesertaQuizController extends Controller
             return response(["Message" => "Peserta tidak ditemukan pada quiz ini"], 404);
         }
     }
+
+    public function peserta(){
+        
+    }
 }

@@ -86,6 +86,7 @@ Route::middleware(['auth'])->group(function () {
 Route::controller(QuizController::class)->group(function () {
     Route::post("/quiz/banner/upload", "bannerHandler")->name("banner_upload");
     Route::get("/pustaka/kuis/soal/download/{idKuis}", "dowhloadQuiz")->name("quiz.download");
+    Route::get("sett/get","pruneSoal");
 });
 // end midlleware group
 

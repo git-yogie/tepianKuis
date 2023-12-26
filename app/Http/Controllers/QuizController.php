@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pesertaQuiz;
 use App\Models\Quiz;
 use App\Models\Soal;
 use Illuminate\Support\Str;
@@ -179,7 +180,7 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        
+
     }
 
     /**
@@ -234,5 +235,28 @@ class QuizController extends Controller
         }
     }
 
+    // public function pruneSoal(){
+    //     $soal = pesertaQuiz::all();
+    //     foreach ($soal as $key => $value) {
+    //         if($value->jawaban_kuis_cbt == "{}"){
+    //             echo "gak ada jawaban kuis ".$value->id." ❌ <br> ";
+    //             continue;
+    //         }
+    //         $data = json_decode($value->jawaban_kuis_cbt);
+    //         foreach ($data->jawaban_user as $jawaban) {
+    //             unset($jawaban->soal);
+    //             // unset($jawaban->data->soal_data);
+    //             // unset($jawaban->data->judul_soal);
+    //             // unset($jawaban->data->created_at);
+    //             // unset($jawaban->data->updated_at);
+    //         }
+    //         $value->jawaban_kuis_cbt = json_encode($data);
+    //         $value->save();
+    //         echo "berhasil di update peserta ke ".$value->id." ✅<br> ";
+    //     }
+
+    //     // $data = json_decode($soal[50]->jawaban_kuis_cbt);
+    //     // dd($data);
+    // }
 
 }
