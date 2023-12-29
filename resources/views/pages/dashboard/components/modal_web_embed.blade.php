@@ -17,12 +17,17 @@
                         <button class="btn btn-secondary btn-sm copy-button-html"><i class="fas fa-copy"></i>
                             Salin</button>
                     </div>
+                    @php
+                        $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+                        // Mendapatkan hostname
+                        $host = $_SERVER['HTTP_HOST'];
+                    @endphp
                     <div class="card-body text-start">
                         <pre><code class="language-html">
 &lt;div id="kuis"&gt;&lt;/div&gt;
 <!-- sasdasds -->
 &lt;script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"&gt;&lt;/script&gt;
-&lt;script src="http://127.0.0.1:8000/library/tepian.min.js"&gt;&lt;/script&gt;
+&lt;script src="{{ $fullUrl = $protocol . '://' . $host; }}/library/tepian.min.js"&gt;&lt;/script&gt;
 
 &lt;script&gt;
     var elementKuis = document.getElementById("kuis");

@@ -56,14 +56,14 @@ document.addEventListener("DOMContentLoaded", (e) => {
         let persentase = 0;
 
         data.forEach(soal => {
-            jumlahPoin += soal.poin;
+            jumlahPoin += Number(soal.poin);
         })
 
 
         jawabanUser.forEach(element => {
             if (element.hasil) {
                 jumlahBenar++
-                poin += element.data.poin
+                poin += Number(element.data.poin)
             }
         });
 
@@ -415,8 +415,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
                     } else {
                         jawabanUser.push({
                             id: data.id,
-                            data: data,
-                            soal: soal,
+                            data: { id: data.id, poin: data.poin },
+                            // soal: soal,
                             jawaban: checkedRadioButton.id,
                             hasil: hasil
                         });

@@ -7,7 +7,7 @@ use App\Http\Controllers\QuizController;
 use App\Http\Controllers\userController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\dashboard;
-use App\Http\Controllers\admin\auth_controller;
+use App\Http\Controllers\Admin\auth_controller;
 
 /*
 |--------------------------------------------------------------------------
