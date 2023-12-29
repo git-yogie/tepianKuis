@@ -154,7 +154,7 @@
                     </tr>
                     <tr>
                         <td scope="row">Jawaban Salah</td>
-                        <td>{{ count($hasil->jawaban_user) - $hasil->jumlahBenar }}/90</td>
+                        <td>{{ count($hasil->jawaban_user) - $hasil->jumlahBenar }}</td>
                     </tr>
                     <tr>
                         <td scope="row">Waktu Mengerjakan</td>
