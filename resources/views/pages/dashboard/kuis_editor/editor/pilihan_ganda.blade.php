@@ -59,7 +59,7 @@
                 name: 'basicstyles',
                 items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-',
                     'RemoveFormat', 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'JustifyLeft',
-                    'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image'
+                    'JustifyCenter', 'JustifyRight', 'JustifyBlock', 'Image','ckeditor_wiris_formulaEditor','ckeditor_wiris_formulaEditorChemistry'
                 ]
             }, ],
 
@@ -68,6 +68,21 @@
             height: 100, // Tinggi editor (dalam piksel)
             width: '100%' // Lebar editor (dalam persen atau piksel)
         }
+
+        var editorConfig = [
+		{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
+		{ name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
+		'/',
+		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
+		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
+		{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
+		{ name: 'insert', items: [ 'Image', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe', 'texzilla', 'Youtube' ] },
+		'/',
+		{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
+		{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
+		{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
+		{ name: 'others', items: [ 'ckeditor_wiris_formulaEditor', 'ckeditor_wiris_formulaEditorChemistry' ] },
+		{ name: 'about', items: [ 'About' ] }]
 
         var id_soal = null;
         var pilihanEditor = [];
@@ -84,7 +99,7 @@
 
 
 
-        CKEDITOR.replace('editor1');
+        CKEDITOR.replace('editor1',editorConfig);
         function BackToQuiz(){
             window.location.assign(`{{ route("pustaka.kuis",$var[0]->kuis_code) }}`)
         }
