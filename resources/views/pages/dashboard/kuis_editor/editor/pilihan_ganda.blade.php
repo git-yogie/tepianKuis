@@ -34,7 +34,7 @@
                         <Button class="btn btn-danger btn-sm ms-2" onclick="removePilihanEditor()"><i
                                 class="fa-solid fa-minus"></i> kurangi Opsi</Button>
                     </div>
-                </div>f
+                </div>
                 <div class="row mt-3" id="Opsi">
 
                 </div>
